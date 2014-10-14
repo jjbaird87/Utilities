@@ -1,67 +1,120 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace unis
 {
-
-   
-    class CreateClocks : Dbconnect
-
+   partial class  Dbconnect
        {
-
+        
         public void clocks(DataGridView dgv)
-        {
-            string datFile = @"c:\older\clocks2.dat";
-   
-            var f = new FileStream(datFile, FileMode.Create, FileAccess.ReadWrite);
-            var connect = new SqlConnection();
-            var datInfo = new DataTable();
-            var sqlString = string.Format("Select C_Unique,C_Date,C_Time,L_TID from dbo.tEnter;");
-            var dbAdapater = new SqlDataAdapter(sqlString ,@"Data Source=ANVJHB-PC\DEV_SQLEXPRESS;Initial Catalog=UNIS;Persist Security Info=True;User ID=jj;Password=evolution");
-            dbAdapater.Fill(datInfo);
-            var w = new StreamWriter(f);
+        {        
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
-            foreach (DataRow row in datInfo.Rows)
+            saveFileDialog1.Filter = "dat files (*.dat)|*.dat";
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                //employee number
-                var employee = row["C_Unique"].ToString();
-                employee = employee.PadLeft(8, '0');
-
-                //date
-                var dt =  row["C_Date"];
-
-                //time
-                var dtTime =  row["C_Time"];
-              
-
-                //direction
-                string direction ;
-
-                //clock
-                var clock = row["L_TID"].ToString();
-                clock = clock.PadLeft(3, '0');
+                string Savedirectoory = saveFileDialog1.FileName;
+                var f = new FileStream(Savedirectoory, FileMode.Create, FileAccess.ReadWrite);
+            
+                var datInfo = new DataTable();
+                var sqlString = string.Format("SELECT tEnter.C_Date, tEnter.C_Time, tEnter.C_Unique, tTerminal.C_Name, tEnter.L_TID FROM  tEnter INNER JOIN tTerminal ON tEnter.L_TID = tTerminal.L_ID");
+                var dbAdapater = new SqlDataAdapter(sqlString,ShareConnection );
+                dbAdapater.Fill(datInfo);
+                var w = new StreamWriter(f);
 
 
-                if(clock == "002") ;
+
+                DataSet dataSet = new DataSet();
+                XmlReader xmlFile = XmlReader.Create(@"/DGVXML.xml", new XmlReaderSettings());
+
+
+                var list = new List<string>();
+                var list2 = new List<string>();
+                var check = new Dictionary<string, string>();
+               
+
+                dataSet.ReadXml(xmlFile);
+                foreach (DataRow rows in dataSet.Tables[0].Rows)
                 {
-                    direction = "I";
+                    string cell1 = rows[0].ToString();
+                    string cell2 = rows[1].ToString();
+                    string cell3 = rows[2].ToString();
+
+                    if (cell2 == "True")
+                    {
+                        list.Add(cell1);  
+                        check.Add(cell1,cell3);               
+                    }
+                              
                 }
-           if(clock != "002")
+
+
+                foreach (DataRow row in datInfo.Rows)
                 {
-                    direction = "O";
+                    if (list.Find(i => i == row["C_Name"].ToString()) == null)
+                        continue;
+
+                    string direction;
+
+                    string value1 = row["C_name"].ToString();
+                    string value2;
+
+                    check.TryGetValue(value1, out value2);
+
+                    if (value2 == "IN")
+                    {
+                        direction = "I";
+                    }
+                    else
+                    {
+                        direction = "O";
+                    }
+
+                    //employee number
+                    var employee = row["C_Unique"].ToString();
+                    employee = employee.PadLeft(8, '0');
+
+                    DateTime dt1;
+                    DateTime dtTime;
+                    try
+                    {
+                        //Date
+                         dt1 = DateTime.ParseExact(row["C_Date"].ToString(), "yyyyMMdd",
+                            CultureInfo.InvariantCulture);
+                        //time
+                        dtTime = DateTime.ParseExact(row["C_Time"].ToString(), "HHmmss",
+                            CultureInfo.InvariantCulture);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+
+                    //clock
+                    var clock = row["L_TID"].ToString();
+                    clock = clock.PadLeft(3, '0');
+                 
+
+                    var datafileRow = String.Format("{0} {1} {2} {3} {4}", employee, dt1.ToString("d"),
+                        dtTime.ToString("t"), direction, clock);
+                    w.WriteLine(datafileRow);
                 }
-          
-
-              //fix the save and load first then we can write according to the saved settings
-                var datafileRow = String.Format("{0} {1} {2} {3} {4}", employee, dt/*.ToString("dd-MM-yyyy")*/,dtTime/*.ToString("HH/MM")*/,direction, clock);
-
-                w.WriteLine(datafileRow);
-
+                w.Close();
             }
-            w.Close();
+
+
+           
+  
+          
         }
        }
 }

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace unis
 {
@@ -11,8 +14,7 @@ namespace unis
         public void loadDb_view(DataGridView dgv)
         {
             const string str = "SELECT c_name FROM dbo.tTerminal";
-            var dataAdapter = new SqlDataAdapter(str,
-                @"Data Source=JJ_LAPTOP\SQLEXPRESS;Initial Catalog=UNIS;Persist Security Info=True;User ID=jj;Password=evolution");
+            var dataAdapter = new SqlDataAdapter(str, ShareConnection);
             //var commandBuilder = new SqlCommandBuilder(dataAdapter);
             var ds = new DataTable();
             dataAdapter.Fill(ds);
@@ -32,23 +34,26 @@ namespace unis
             select.Items.Add(OUT);
       
             dgv.Columns.Add(select);
+
+            dgv.Columns[0].HeaderCell.Value = "Device Name";
         }
 
 
 
         public void Load(DataGridView dgv)
         {
+            dgv.DataSource = null;
             try
             {
                 dgv.Refresh();
-                XmlReader xmlFile = XmlReader.Create(@"c:/older/DGVXML.xml", new XmlReaderSettings());
+                XmlReader xmlFile = XmlReader.Create(@"/DGVXML.xml", new XmlReaderSettings());
                 DataSet dataSet = new DataSet();
                 dataSet.ReadXml(xmlFile);
 
                 DataGridView grid = new DataGridView();
 
                 var nameColumn = new DataGridViewTextBoxColumn();
-                nameColumn.Name = "Device_Name";
+                nameColumn.Name = "Device Name";
                 nameColumn.HeaderText = "Device Name";
                 dgv.Columns.Add(nameColumn);
                 
@@ -80,12 +85,10 @@ namespace unis
                     DataGridViewRow dgRow = new DataGridViewRow();
                     dgv.Rows.Add(new object[] {DeviceName, Enabled, Direction});
                 }
-             
                 xmlFile.Close();
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message);
             }
 

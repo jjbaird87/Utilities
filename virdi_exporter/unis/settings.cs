@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.Data;
+﻿using System.Data;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace unis
 {
-    internal class Settings : ApplicationSettingsBase
+    internal class Settings 
     {
 
         public void Save(DataGridView dgv)
@@ -25,7 +24,6 @@ namespace unis
                 DataRow dataRow = dt.NewRow();
                 for (int i = 0; i < columnCount; i++)
                 {
-                   //returns checkboxes and dropdowns as string with .value..... nearly got it
                     dataRow[i] = dr.Cells[i].Value;
                 }
                 dt.Rows.Add(dataRow);
@@ -33,33 +31,38 @@ namespace unis
 
             DataSet ds = new DataSet();
             ds.Tables.Add(dt);
-            XmlTextWriter xmlSave = new XmlTextWriter(@"c:/older/DGVXML.xml", Encoding.UTF8);
+            XmlTextWriter xmlSave = new XmlTextWriter(@"/DGVXML.xml", Encoding.UTF8);
            
             ds.WriteXml(xmlSave);
             xmlSave.Close();
         }
 
 
-       
-        public void SaveJj(DataGridView dgv)
+        public void LoginSave(string username, string server, string password)
         {
-            var dictionary = new ListDictionary();
-            var stringList = new string[3];
-            var i = 0;
+            XDocument Xdoc = new XDocument(new XElement("Login"));
+
+            Xdoc = new XDocument();
+            XElement xmlstart = new XElement("Login");
+            Xdoc.Add(xmlstart);
+
+            XElement xml =
+                           new XElement("Login",
+              new XElement("ServerId", server),
+              new XElement("UserId", username),
+              new XElement("Password", password));
 
 
-            foreach (DataGridViewRow row in dgv.Rows)
+            if (Xdoc.Descendants().Count() > 0)
+                Xdoc.Descendants().First().Add(xml);
+            else
             {
-                stringList[0] += row.Cells["c_name"].Value;
-                stringList[1] += row.Cells["ENABLED"].Value;
-                stringList[2] += row.Cells["DIRECTION"].Value;
-
-                dictionary.Add(String.Format("Row{0}", i), stringList);
-                i++;
+                Xdoc.Add(xml);
             }
-
-            unis.Properties.Settings.Default.DeviceSettings = dictionary;
-            unis.Properties.Settings.Default.Save();
+            Xdoc.Element("Login").Save("/Login.xml");
         }
+
+      
+      
     }
 }

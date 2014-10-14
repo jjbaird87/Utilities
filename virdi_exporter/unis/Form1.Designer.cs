@@ -31,108 +31,101 @@
             this.TXTServNameIP = new System.Windows.Forms.TextBox();
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.txtDbname = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.txtField = new System.Windows.Forms.TextBox();
+            this.btnConnect = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.CheckBoxW_authenticate = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnView = new System.Windows.Forms.Button();
+            this.btnViewDefault = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.BtnLoadSettings = new System.Windows.Forms.Button();
             this.DataView = new System.Windows.Forms.DataGridView();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataView)).BeginInit();
             this.SuspendLayout();
             // 
             // TXTServNameIP
             // 
-            this.TXTServNameIP.Location = new System.Drawing.Point(73, 38);
+            this.TXTServNameIP.Location = new System.Drawing.Point(76, 53);
             this.TXTServNameIP.Name = "TXTServNameIP";
-            this.TXTServNameIP.Size = new System.Drawing.Size(100, 20);
+            this.TXTServNameIP.Size = new System.Drawing.Size(140, 20);
             this.TXTServNameIP.TabIndex = 0;
-            this.TXTServNameIP.Text = "ANVJHB-PC\\DEV_SQLEXPRESS";
+            this.TXTServNameIP.Text = "\r\n";
             // 
             // txtUserName
             // 
-            this.txtUserName.Location = new System.Drawing.Point(73, 91);
+            this.txtUserName.Location = new System.Drawing.Point(76, 91);
             this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(100, 20);
+            this.txtUserName.Size = new System.Drawing.Size(140, 20);
             this.txtUserName.TabIndex = 1;
-            this.txtUserName.Text = "jj";
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(73, 126);
+            this.txtPassword.Location = new System.Drawing.Point(76, 126);
+            this.txtPassword.Multiline = true;
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '@';
-            this.txtPassword.Size = new System.Drawing.Size(100, 20);
+            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.Size = new System.Drawing.Size(140, 16);
             this.txtPassword.TabIndex = 2;
-            this.txtPassword.Text = "evolution";
             // 
-            // button1
+            // btnConnect
             // 
-            this.button1.Location = new System.Drawing.Point(73, 264);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "connect";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnConnect.Location = new System.Drawing.Point(41, 216);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(130, 34);
+            this.btnConnect.TabIndex = 3;
+            this.btnConnect.Text = "Connect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.button1_Click);
             // 
-            // txtDbname
+            // btnExport
             // 
-            this.txtDbname.Location = new System.Drawing.Point(73, 65);
-            this.txtDbname.Name = "txtDbname";
-            this.txtDbname.Size = new System.Drawing.Size(100, 20);
-            this.txtDbname.TabIndex = 4;
-            this.txtDbname.Text = "unis";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(513, 291);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(88, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "create dat file";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(73, 172);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 6;
-            this.textBox1.Text = "Tenter";
-            // 
-            // txtField
-            // 
-            this.txtField.Location = new System.Drawing.Point(73, 211);
-            this.txtField.Name = "txtField";
-            this.txtField.Size = new System.Drawing.Size(100, 20);
-            this.txtField.TabIndex = 7;
-            this.txtField.Text = "Exported";
+            this.btnExport.Location = new System.Drawing.Point(535, 291);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(88, 23);
+            this.btnExport.TabIndex = 5;
+            this.btnExport.Text = "Export .dat file";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.button2_Click);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.CheckBoxW_authenticate);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.btnConnect);
             this.groupBox1.Controls.Add(this.TXTServNameIP);
-            this.groupBox1.Controls.Add(this.txtField);
             this.groupBox1.Controls.Add(this.txtUserName);
-            this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.txtPassword);
-            this.groupBox1.Controls.Add(this.txtDbname);
-            this.groupBox1.Location = new System.Drawing.Point(3, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 311);
+            this.groupBox1.Size = new System.Drawing.Size(222, 311);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "login and check Exported";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(0, 56);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(70, 13);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Server name:";
+            // 
+            // CheckBoxW_authenticate
+            // 
+            this.CheckBoxW_authenticate.AutoSize = true;
+            this.CheckBoxW_authenticate.Location = new System.Drawing.Point(41, 165);
+            this.CheckBoxW_authenticate.Name = "CheckBoxW_authenticate";
+            this.CheckBoxW_authenticate.Size = new System.Drawing.Size(140, 17);
+            this.CheckBoxW_authenticate.TabIndex = 10;
+            this.CheckBoxW_authenticate.Text = "Windows authentication";
+            this.CheckBoxW_authenticate.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -146,41 +139,41 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 94);
+            this.label1.Location = new System.Drawing.Point(7, 94);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 8;
             this.label1.Text = "User Name:";
             // 
-            // btnView
+            // btnViewDefault
             // 
-            this.btnView.Location = new System.Drawing.Point(231, 291);
-            this.btnView.Name = "btnView";
-            this.btnView.Size = new System.Drawing.Size(81, 23);
-            this.btnView.TabIndex = 10;
-            this.btnView.Text = "View form db";
-            this.btnView.UseVisualStyleBackColor = true;
-            this.btnView.Click += new System.EventHandler(this.button3_Click);
+            this.btnViewDefault.Location = new System.Drawing.Point(253, 291);
+            this.btnViewDefault.Name = "btnViewDefault";
+            this.btnViewDefault.Size = new System.Drawing.Size(81, 23);
+            this.btnViewDefault.TabIndex = 10;
+            this.btnViewDefault.Text = "Open default";
+            this.btnViewDefault.UseVisualStyleBackColor = true;
+            this.btnViewDefault.Click += new System.EventHandler(this.button3_Click);
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(421, 291);
+            this.btnSave.Location = new System.Drawing.Point(449, 291);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(73, 23);
             this.btnSave.TabIndex = 12;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // button3
+            // BtnLoadSettings
             // 
-            this.button3.Location = new System.Drawing.Point(330, 291);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 13;
-            this.button3.Text = "Load ";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click_2);
+            this.BtnLoadSettings.Location = new System.Drawing.Point(348, 291);
+            this.BtnLoadSettings.Name = "BtnLoadSettings";
+            this.BtnLoadSettings.Size = new System.Drawing.Size(85, 23);
+            this.BtnLoadSettings.TabIndex = 13;
+            this.BtnLoadSettings.Text = "Load Settings";
+            this.BtnLoadSettings.UseVisualStyleBackColor = true;
+            this.BtnLoadSettings.Click += new System.EventHandler(this.button3_Click_2);
             // 
             // DataView
             // 
@@ -190,24 +183,28 @@
             this.DataView.AllowUserToResizeColumns = false;
             this.DataView.AllowUserToResizeRows = false;
             this.DataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataView.Location = new System.Drawing.Point(231, 12);
+            this.DataView.Location = new System.Drawing.Point(253, 12);
             this.DataView.Name = "DataView";
             this.DataView.Size = new System.Drawing.Size(370, 273);
             this.DataView.TabIndex = 11;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(635, 340);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.BtnLoadSettings);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.DataView);
-            this.Controls.Add(this.btnView);
+            this.Controls.Add(this.btnViewDefault);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnExport);
             this.Name = "Form1";
-            this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -221,18 +218,19 @@
         private System.Windows.Forms.TextBox TXTServNameIP;
         private System.Windows.Forms.TextBox txtUserName;
         private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox txtDbname;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox txtField;
+        private System.Windows.Forms.Button btnConnect;
+        private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnView;
+        private System.Windows.Forms.Button btnViewDefault;
         private System.Windows.Forms.DataGridView DataView;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button BtnLoadSettings;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox CheckBoxW_authenticate;
     }
 }
 

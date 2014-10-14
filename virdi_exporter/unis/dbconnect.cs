@@ -3,23 +3,27 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
+
 namespace unis
 {
    public partial class Dbconnect 
     {
         public SqlConnection ShareConnection = new SqlConnection();
 
-        public void Dbconnection(string password, string dbname, string servName, string userName, string table,string feild)
-        {
-            string connectionString = "Data Source=";
-            connectionString += servName + ";";
-            if (userName == "") connectionString += "Integrated Security=True;";
-            else
-            {
-                connectionString += "Persist Security Info=True;User ID=" + userName + ";" +
-                                    "Password=" + password + ";";
-            }
 
+
+        public void Dbconnection(string password, string servName, string userName, bool authenticate)
+        {
+               string  connectionString = "Data Source=";
+                connectionString += servName + ";";
+
+                if (authenticate==true) connectionString += "Integrated Security=True;";
+                else
+                {
+                    connectionString += "Persist Security Info=True;User ID=" + userName + ";" +
+                                        "Password=" + password + ";";
+                }
+            
             // TheConnectionString = strConnect;
             var aConnect = new SqlConnection {ConnectionString = connectionString};
 
@@ -35,33 +39,26 @@ namespace unis
             }
 
             aConnect.Close();
-            aConnect.ConnectionString += "Initial Catalog=" + dbname;
-
+            aConnect.ConnectionString += "Initial Catalog=Unis";
+            connectionString += "Initial Catalog=Unis";
             ShareConnection.ConnectionString = connectionString;
 
             try
             {
 
-                
-                aConnect.Open();
-                    
-                 
+
+                aConnect.Open();                      
                 var dBtables = new DataTable();
-                string sqlString = "Select TOP 1 * from dbo." + table + ";";
+                string sqlString = "Select TOP 1 * from dbo.Tenter;";
                 var dbAdapater = new SqlDataAdapter(sqlString, aConnect);
                 dbAdapater.Fill(dBtables);
-                int i = dBtables.Columns.IndexOf(feild);
-                 
+                int i = dBtables.Columns.IndexOf("Exported");
 
-                
-
-              //  ShareConnection.Close();
-
-
+                MessageBox.Show("Connection to database was successful", "Connected", MessageBoxButtons.OK);    
 
                 if (i == -1)
                     //create Exported column coz it was not found
-                    MessageBox.Show(feild + @" missing in DB, CREATE?");
+                    MessageBox.Show(@" missing in DB, CREATE?", "Exported column is missing in the Tenter table");
             }
             catch (Exception)
             {
