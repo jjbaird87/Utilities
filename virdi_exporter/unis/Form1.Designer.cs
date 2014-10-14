@@ -148,9 +148,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 94);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 13);
+            this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 8;
-            this.label1.Text = "User Name";
+            this.label1.Text = "User Name:";
             // 
             // btnView
             // 
