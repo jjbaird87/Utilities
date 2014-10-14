@@ -139,14 +139,14 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(14, 129);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.Size = new System.Drawing.Size(56, 13);
             this.label2.TabIndex = 9;
-            this.label2.Text = "Password";
+            this.label2.Text = "Password:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 94);
+            this.label1.Location = new System.Drawing.Point(4, 94);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 8;
