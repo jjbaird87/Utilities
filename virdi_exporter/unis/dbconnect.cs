@@ -54,15 +54,24 @@ namespace unis
                 dbAdapater.Fill(dBtables);
                 int i = dBtables.Columns.IndexOf("Exported");
 
-                MessageBox.Show("Connection to database was successful", "Connected", MessageBoxButtons.OK);    
+                MessageBox.Show("Connection to database was successful", "Connected", MessageBoxButtons.OK);
 
-                if (i == -1)
-                    //create Exported column coz it was not found
-                    MessageBox.Show(@" missing in DB, CREATE?", "Exported column is missing in the Tenter table");
+                //create exported if not found
+                if (i == -1)                 
+                {
+                    string command = "IF NOT  EXISTS(SELECT * FROM sys.columns WHERE Name = N'Exported' and Object_ID = Object_ID(N'[dbo].[tEnter]')) BEGIN ALTER TABLE [dbo].[tEnter] ADD Exported varchar(1) END ";
+                    SqlCommand addColumn = new SqlCommand(command, aConnect);
+                    addColumn.ExecuteNonQuery();
+                }
+
             }
             catch (Exception)
             {
                 MessageBox.Show(@"failed to connect");
+                //just in case
+                string command = "IF NOT  EXISTS(SELECT * FROM sys.columns WHERE Name = N'Exported' and Object_ID = Object_ID(N'[dbo].[tEnter]')) BEGIN ALTER TABLE [dbo].[tEnter] ADD Exported varchar(1) END ";
+                SqlCommand addColumn = new SqlCommand(command, aConnect);
+                addColumn.ExecuteNonQuery();
             }
         }
     }

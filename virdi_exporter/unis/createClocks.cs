@@ -26,7 +26,7 @@ namespace unis
                 var f = new FileStream(Savedirectoory, FileMode.Create, FileAccess.ReadWrite);
             
                 var datInfo = new DataTable();
-                var sqlString = string.Format("SELECT tEnter.C_Date, tEnter.C_Time, tEnter.C_Unique, tTerminal.C_Name, tEnter.L_TID FROM  tEnter INNER JOIN tTerminal ON tEnter.L_TID = tTerminal.L_ID");
+                var sqlString = string.Format("SELECT tEnter.C_Date,tEnter.Exported, tEnter.C_Time, tEnter.C_Unique, tTerminal.C_Name, tEnter.L_TID FROM  tEnter INNER JOIN tTerminal ON tEnter.L_TID = tTerminal.L_ID");
                 var dbAdapater = new SqlDataAdapter(sqlString,ShareConnection );
                 dbAdapater.Fill(datInfo);
                 var w = new StreamWriter(f);
@@ -35,7 +35,7 @@ namespace unis
 
                 DataSet dataSet = new DataSet();
                 XmlReader xmlFile = XmlReader.Create(@"/DGVXML.xml", new XmlReaderSettings());
-
+                
 
                 var list = new List<string>();
                 var list2 = new List<string>();
@@ -53,15 +53,28 @@ namespace unis
                     {
                         list.Add(cell1);  
                         check.Add(cell1,cell3);               
-                    }
-                              
+                    }                 
                 }
-
 
                 foreach (DataRow row in datInfo.Rows)
                 {
                     if (list.Find(i => i == row["C_Name"].ToString()) == null)
                         continue;
+                    if (row["Exported"].ToString() == "1")
+                    { continue;        
+                   }
+
+
+                    string checktime = row["C_Time"].ToString();
+                    string checkDate = row["C_Date"].ToString();
+                    string Unique = row["C_Unique"].ToString();
+
+                    string sql = "UPDATE tEnter SET Exported =1 WHERE C_Time =" + checktime + " and C_Date = " + checkDate + " and C_Unique = " + Unique;
+                    ShareConnection.Open();
+                       
+                    SqlCommand updateDate = new SqlCommand(sql, ShareConnection);
+                    updateDate.ExecuteNonQuery();
+                    ShareConnection.Close();
 
                     string direction;
 
@@ -109,6 +122,7 @@ namespace unis
                     w.WriteLine(datafileRow);
                 }
                 w.Close();
+                xmlFile.Close();
                 MessageBox.Show("Export complete", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 

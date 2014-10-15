@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -39,7 +40,13 @@ namespace unis
 
             ds.WriteXml(xmlSave);
             xmlSave.Close();
-            ds.Dispose();
+                ds.Clear();
+                dt.Clear();
+                ds.EndInit();
+                dt.EndInit();
+                
+          
+
                 MessageBox.Show("Expot settings have been saved successfully", "Saved", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
