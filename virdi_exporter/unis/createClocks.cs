@@ -40,21 +40,33 @@ namespace unis
                 var list = new List<string>();
                 var list2 = new List<string>();
                 var check = new Dictionary<string, string>();
-               
 
-                dataSet.ReadXml(xmlFile);
-                foreach (DataRow rows in dataSet.Tables[0].Rows)
+
+                try
                 {
-                    string cell1 = rows[0].ToString();
-                    string cell2 = rows[1].ToString();
-                    string cell3 = rows[2].ToString();
-
-                    if (cell2 == "True")
+                    dataSet.ReadXml(xmlFile);
+                    foreach (DataRow rows in dataSet.Tables[0].Rows)
                     {
-                        list.Add(cell1);  
-                        check.Add(cell1,cell3);               
-                    }                 
+                        string cell1 = rows[0].ToString();
+                        string cell2 = rows[1].ToString();
+                        string cell3 = rows[2].ToString();
+
+                        if (cell2 == "True")
+                        {
+                            list.Add(cell1);
+                            check.Add(cell1, cell3);
+                        }
+                    }
                 }
+                catch (Exception)
+                {
+                    MessageBox.Show(
+                        "Exporting to .dat file has failed, please restart the program and set up new export settings",
+                        "Export failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+               
 
                 foreach (DataRow row in datInfo.Rows)
                 {

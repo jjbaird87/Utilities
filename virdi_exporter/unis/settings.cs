@@ -47,8 +47,7 @@ namespace unis
                 
           
 
-                MessageBox.Show("Expot settings have been saved successfully", "Saved", MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+               
             }
             catch (Exception)
             {
