@@ -16,16 +16,16 @@ namespace unis
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (TXTServNameIP.Text == "")
-            {
-                return;
-            }
-
-
 
             bool authent =false;
             try
             {
+
+                if (TXTServNameIP.Text == "")
+                {
+                    return;
+                }
+
                 if (CheckBoxW_authenticate.Checked) authent = true;
                 cNet.Dbconnection(txtPassword.Text, TXTServNameIP.Text, txtUserName.Text, authent);
                 btnSave.Enabled = true;
@@ -35,6 +35,7 @@ namespace unis
                 BtnLoadSettings.Enabled = true;
                 DataView.Enabled = true;
                 seting.LoginSave(txtUserName.Text,TXTServNameIP.Text,txtPassword.Text);
+              
             }
             catch (Exception ex)
             {
@@ -68,8 +69,8 @@ namespace unis
             DataView.Enabled = false;
             button3_Click_2(sender, e);
             
-
-            // cNet.loadLogi(TXTServNameIP,txtUserName,txtPassword);
+            cNet.loadLogin(TXTServNameIP,txtUserName,txtPassword);
+            
         }
 
             
@@ -89,6 +90,25 @@ namespace unis
         {
           DataView.Columns.Clear();
            cNet.Load(DataView);
+        }
+
+        private void CheckBoxW_authenticate_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CheckBoxW_authenticate.Checked == true)
+            {
+                txtPassword.Enabled = false;
+                txtUserName.Enabled = false;
+            }
+            else
+            {
+                txtPassword.Enabled = true;
+                txtUserName.Enabled = true;
+            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

@@ -21,8 +21,8 @@ namespace unis
             dgv.DataSource = ds;
 
             var checkColumn = new DataGridViewCheckBoxColumn();
-            checkColumn.Name = "Checked";
-            checkColumn.HeaderText = "Checked";
+            checkColumn.Name = "Select";
+            checkColumn.HeaderText = "Select";
             dgv.Columns.Add(checkColumn);
 
             string IN = "IN";
@@ -36,6 +36,32 @@ namespace unis
             dgv.Columns.Add(select);
 
             dgv.Columns[0].HeaderCell.Value = "Device Name";
+        }
+
+
+
+        public void loadLogin(TextBox server, TextBox user, TextBox pass)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load("/Login.xml");
+                XmlNode node = doc.SelectSingleNode("/Login/Login/ServerId");
+                server.Text = node.InnerText;
+
+                XmlNode node2 = doc.SelectSingleNode("/Login/Login/UserId");
+                user.Text = node2.InnerText;
+
+                XmlNode node3 = doc.SelectSingleNode("/Login/Login/Password");
+                pass.Text = node3.InnerText;
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("First run of the program, login details will be saved apon successful login", "",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+         
         }
 
 
@@ -59,8 +85,8 @@ namespace unis
                 
 
                 var checkColumn = new DataGridViewCheckBoxColumn();
-                checkColumn.Name = "Checked";
-                checkColumn.HeaderText = "Checked";
+                checkColumn.Name = "Select";
+                checkColumn.HeaderText = "Select";
                 dgv.Columns.Add(checkColumn);
 
                 string IN = "IN";
@@ -89,7 +115,8 @@ namespace unis
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Export settings have not been saved yet", "", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
 
         }

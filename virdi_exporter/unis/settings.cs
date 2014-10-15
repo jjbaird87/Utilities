@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -31,10 +32,24 @@ namespace unis
 
             DataSet ds = new DataSet();
             ds.Tables.Add(dt);
+
+            try
+            {
             XmlTextWriter xmlSave = new XmlTextWriter(@"/DGVXML.xml", Encoding.UTF8);
-           
+
             ds.WriteXml(xmlSave);
             xmlSave.Close();
+            ds.Dispose();
+                MessageBox.Show("Expot settings have been saved successfully", "Saved", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Save attempt failed, please restart the program or load default settings and and try save again", "Save failed",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+           
         }
 
 

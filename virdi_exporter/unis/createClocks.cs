@@ -102,13 +102,14 @@ namespace unis
                     //clock
                     var clock = row["L_TID"].ToString();
                     clock = clock.PadLeft(3, '0');
-                 
 
-                    var datafileRow = String.Format("{0} {1} {2} {3} {4}", employee, dt1.ToString("d"),
-                        dtTime.ToString("t"), direction, clock);
+
+                    var datafileRow = String.Format("{0} {1} {2} {3} {4}", employee, dt1.ToString("dd/MM/yyyy"),
+                        dtTime.ToString(@"hh\:mm"), direction, clock);
                     w.WriteLine(datafileRow);
                 }
                 w.Close();
+                MessageBox.Show("Export complete", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
 

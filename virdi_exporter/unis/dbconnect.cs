@@ -34,7 +34,7 @@ namespace unis
             catch (SqlException)
             {
                 aConnect.Close();
-                MessageBox.Show(@"failed to find db");
+                MessageBox.Show(@"failed to connect to Database");
                 return;
             }
 
