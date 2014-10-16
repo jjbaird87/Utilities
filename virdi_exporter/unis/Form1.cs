@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace unis
@@ -47,8 +48,10 @@ namespace unis
 
         private void button2_Click(object sender, EventArgs e)
         {
+         
            btnSave_Click(sender,e);
-            cNet.clocks(DataView);
+            cNet.clocks(DataView,progressBar1);
+            Application.DoEvents();
         }
 
 
@@ -60,7 +63,7 @@ namespace unis
 
 
         private void Form1_Load(object sender, EventArgs e)
-        {
+        {       
             btnSave.Enabled = false;
             btnViewDefault.Enabled = false;
             btnExport.Enabled = false;
@@ -68,9 +71,7 @@ namespace unis
             BtnLoadSettings.Enabled = false;
             DataView.Enabled = false;
             button3_Click_2(sender, e);
-            
-            cNet.loadLogin(TXTServNameIP,txtUserName,txtPassword);
-            
+            cNet.LoadLogin(TXTServNameIP,txtUserName,txtPassword);          
         }
 
             
@@ -106,10 +107,6 @@ namespace unis
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
 
     }
 }

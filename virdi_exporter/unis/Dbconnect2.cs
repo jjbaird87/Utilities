@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Linq;
-using System.Xml.XPath;
 
 namespace unis
 {
@@ -22,13 +19,13 @@ namespace unis
 
             var checkColumn = new DataGridViewCheckBoxColumn();
             checkColumn.Name = "Select";
-            checkColumn.HeaderText = "Select";
+            checkColumn.HeaderText = @"Select";
             dgv.Columns.Add(checkColumn);
 
             string IN = "IN";
             string OUT = "OUT";
             var select = new DataGridViewComboBoxColumn();
-            select.HeaderText = "Direction";
+            select.HeaderText = @"Direction";
             select.Name = "Direction";
             select.Items.Add(IN);
             select.Items.Add(OUT);
@@ -40,7 +37,7 @@ namespace unis
 
 
 
-        public void loadLogin(TextBox server, TextBox user, TextBox pass)
+        public void LoadLogin(TextBox server, TextBox user, TextBox pass)
         {
             try
             {
@@ -58,7 +55,7 @@ namespace unis
             catch (Exception)
             {
 
-                MessageBox.Show("First run of the program, login details will be saved apon successful login", "",
+                MessageBox.Show(@"First run of the program, login details will be saved apon successful login", "",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
          
@@ -76,23 +73,23 @@ namespace unis
                 DataSet dataSet = new DataSet();
                 dataSet.ReadXml(xmlFile);
 
-                DataGridView grid = new DataGridView();
+               // DataGridView grid = new DataGridView();
 
                 var nameColumn = new DataGridViewTextBoxColumn();
                 nameColumn.Name = "Device Name";
-                nameColumn.HeaderText = "Device Name";
+                nameColumn.HeaderText = @"Device Name";
                 dgv.Columns.Add(nameColumn);
                 
 
                 var checkColumn = new DataGridViewCheckBoxColumn();
                 checkColumn.Name = "Select";
-                checkColumn.HeaderText = "Select";
+                checkColumn.HeaderText = @"Select";
                 dgv.Columns.Add(checkColumn);
 
                 string IN = "IN";
                 string OUT = "OUT";
                 var select = new DataGridViewComboBoxColumn();
-                select.HeaderText = "Direction";
+                select.HeaderText = @"Direction";
                 select.Name = "Direction";
                 select.Items.Add(IN);
                 select.Items.Add(OUT);
@@ -100,22 +97,22 @@ namespace unis
 
                 foreach (DataRow row in dataSet.Tables[0].Rows)
                 {
-                    string DeviceName = row[0].ToString();
+                    string deviceName = row[0].ToString();
 
-                     bool Enabled = false;
+                     bool enabled = false;
                     if (row[1].ToString() != "")
-                        Enabled = Convert.ToBoolean( row[1].ToString());
+                        enabled = Convert.ToBoolean( row[1].ToString());
 
-                    string Direction = row[2].ToString();
+                    string direction = row[2].ToString();
 
-                    DataGridViewRow dgRow = new DataGridViewRow();
-                    dgv.Rows.Add(new object[] {DeviceName, Enabled, Direction});
+                    //DataGridViewRow dgRow = new DataGridViewRow();
+                    dgv.Rows.Add(new object[] {deviceName, enabled, direction});
                 }
                 xmlFile.Close();
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                MessageBox.Show("Export settings have not been saved yet", "", MessageBoxButtons.OK,
+                MessageBox.Show(@"Export settings have not been saved yet", "", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
 

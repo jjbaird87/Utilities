@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -52,7 +51,7 @@ namespace unis
             catch (Exception)
             {
 
-                MessageBox.Show("Save attempt failed, please restart the program or load default settings and and try save again", "Save failed",
+                MessageBox.Show(@"Save attempt failed, please restart the program or load default settings and and try save again", @"Save failed",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
            
@@ -61,11 +60,11 @@ namespace unis
 
         public void LoginSave(string username, string server, string password)
         {
-            XDocument Xdoc = new XDocument(new XElement("Login"));
+            XDocument xdoc = new XDocument(new XElement("Login"));
 
-            Xdoc = new XDocument();
+            xdoc = new XDocument();
             XElement xmlstart = new XElement("Login");
-            Xdoc.Add(xmlstart);
+            xdoc.Add(xmlstart);
 
             XElement xml =
                            new XElement("Login",
@@ -74,13 +73,13 @@ namespace unis
               new XElement("Password", password));
 
 
-            if (Xdoc.Descendants().Count() > 0)
-                Xdoc.Descendants().First().Add(xml);
+            if (xdoc.Descendants().Count() > 0)
+                xdoc.Descendants().First().Add(xml);
             else
             {
-                Xdoc.Add(xml);
+                xdoc.Add(xml);
             }
-            Xdoc.Element("Login").Save("/Login.xml");
+            xdoc.Element("Login").Save("/Login.xml");
         }
 
       

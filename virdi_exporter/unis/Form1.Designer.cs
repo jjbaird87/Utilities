@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.TXTServNameIP = new System.Windows.Forms.TextBox();
             this.txtUserName = new System.Windows.Forms.TextBox();
@@ -35,6 +36,8 @@
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.CheckBoxW_authenticate = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -45,12 +48,12 @@
             this.DataView = new System.Windows.Forms.DataGridView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DataView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataView)).BeginInit();
             this.SuspendLayout();
             // 
             // TXTServNameIP
@@ -74,27 +77,33 @@
             this.txtPassword.Multiline = true;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(140, 16);
+            this.txtPassword.Size = new System.Drawing.Size(140, 21);
             this.txtPassword.TabIndex = 2;
             // 
             // btnConnect
             // 
+            this.btnConnect.BackColor = System.Drawing.Color.DarkGray;
+            this.btnConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConnect.Location = new System.Drawing.Point(40, 182);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(130, 34);
             this.btnConnect.TabIndex = 3;
             this.btnConnect.Text = "Connect";
-            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.UseVisualStyleBackColor = false;
             this.btnConnect.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnExport
             // 
-            this.btnExport.Location = new System.Drawing.Point(540, 291);
+            this.btnExport.BackColor = System.Drawing.Color.DarkGray;
+            this.btnExport.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Green;
+            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.Location = new System.Drawing.Point(540, 287);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(88, 23);
             this.btnExport.TabIndex = 5;
             this.btnExport.Text = "Export .dat file";
-            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.UseVisualStyleBackColor = false;
             this.btnExport.Click += new System.EventHandler(this.button2_Click);
             // 
             // groupBox1
@@ -109,11 +118,31 @@
             this.groupBox1.Controls.Add(this.TXTServNameIP);
             this.groupBox1.Controls.Add(this.txtUserName);
             this.groupBox1.Controls.Add(this.txtPassword);
-            this.groupBox1.Location = new System.Drawing.Point(12, -2);
+            this.groupBox1.Location = new System.Drawing.Point(9, -1);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(222, 342);
+            this.groupBox1.Size = new System.Drawing.Size(222, 348);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.Green;
+            this.label5.Location = new System.Drawing.Point(6, 313);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(203, 26);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "TEL: 0861268000 \r\nEMAIL: SALES@ANVHOLDINGS.CO.ZA";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(6, 260);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(187, 50);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 12;
+            this.pictureBox1.TabStop = false;
             // 
             // label3
             // 
@@ -141,7 +170,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.Green;
-            this.label2.Location = new System.Drawing.Point(18, 102);
+            this.label2.Location = new System.Drawing.Point(18, 105);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(56, 13);
             this.label2.TabIndex = 9;
@@ -156,36 +185,47 @@
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 8;
             this.label1.Text = "User Name:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // btnViewDefault
             // 
-            this.btnViewDefault.Location = new System.Drawing.Point(242, 291);
+            this.btnViewDefault.BackColor = System.Drawing.Color.DarkGray;
+            this.btnViewDefault.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Green;
+            this.btnViewDefault.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnViewDefault.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnViewDefault.Location = new System.Drawing.Point(242, 287);
             this.btnViewDefault.Name = "btnViewDefault";
             this.btnViewDefault.Size = new System.Drawing.Size(122, 23);
             this.btnViewDefault.TabIndex = 10;
             this.btnViewDefault.Text = "Default export settings";
-            this.btnViewDefault.UseVisualStyleBackColor = true;
+            this.btnViewDefault.UseVisualStyleBackColor = false;
             this.btnViewDefault.Click += new System.EventHandler(this.button3_Click);
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(461, 291);
+            this.btnSave.BackColor = System.Drawing.Color.DarkGray;
+            this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Green;
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.Location = new System.Drawing.Point(461, 287);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(73, 23);
             this.btnSave.TabIndex = 12;
             this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // BtnLoadSettings
             // 
-            this.BtnLoadSettings.Location = new System.Drawing.Point(370, 291);
+            this.BtnLoadSettings.BackColor = System.Drawing.Color.DarkGray;
+            this.BtnLoadSettings.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Green;
+            this.BtnLoadSettings.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.BtnLoadSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnLoadSettings.Location = new System.Drawing.Point(370, 287);
             this.BtnLoadSettings.Name = "BtnLoadSettings";
             this.BtnLoadSettings.Size = new System.Drawing.Size(85, 23);
             this.BtnLoadSettings.TabIndex = 13;
             this.BtnLoadSettings.Text = "Load Settings";
-            this.BtnLoadSettings.UseVisualStyleBackColor = true;
+            this.BtnLoadSettings.UseVisualStyleBackColor = false;
             this.BtnLoadSettings.Click += new System.EventHandler(this.button3_Click_2);
             // 
             // DataView
@@ -197,7 +237,7 @@
             this.DataView.AllowUserToResizeRows = false;
             this.DataView.BackgroundColor = System.Drawing.Color.Green;
             this.DataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataView.Location = new System.Drawing.Point(250, 12);
+            this.DataView.Location = new System.Drawing.Point(250, 8);
             this.DataView.Name = "DataView";
             this.DataView.Size = new System.Drawing.Size(370, 273);
             this.DataView.TabIndex = 11;
@@ -206,35 +246,29 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(6, 260);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(187, 50);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 12;
-            this.pictureBox1.TabStop = false;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.Color.Green;
-            this.label4.Location = new System.Drawing.Point(354, 332);
+            this.label4.Location = new System.Drawing.Point(349, 338);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(283, 13);
             this.label4.TabIndex = 14;
             this.label4.Text = "COPYRIGHT ACTA NON VERBA HOLDINGS (PTY) LTD.";
             // 
-            // label5
+            // progressBar1
             // 
-            this.label5.AutoSize = true;
-            this.label5.ForeColor = System.Drawing.Color.Green;
-            this.label5.Location = new System.Drawing.Point(6, 313);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(203, 26);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "TEL: 0861268000 \r\nEMAIL: SALES@ANVHOLDINGS.CO.ZA";
+            this.progressBar1.ForeColor = System.Drawing.Color.ForestGreen;
+            this.progressBar1.Location = new System.Drawing.Point(243, 320);
+            this.progressBar1.MarqueeAnimationSpeed = 50;
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(100, 23);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 15;
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 5000;
             // 
             // Form1
             // 
@@ -242,7 +276,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(635, 345);
+            this.ClientSize = new System.Drawing.Size(635, 355);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.BtnLoadSettings);
             this.Controls.Add(this.btnSave);
@@ -250,14 +285,15 @@
             this.Controls.Add(this.btnViewDefault);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnExport);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "ANV HOLDINGS (PTY) LTD - VIRDI CLOCKING COLLECTOR ";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DataView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -284,6 +320,8 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

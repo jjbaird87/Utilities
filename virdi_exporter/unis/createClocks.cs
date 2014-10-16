@@ -10,11 +10,11 @@ using System.Xml;
 
 namespace unis
 {
-   partial class  Dbconnect
-       {
-        
-        public void clocks(DataGridView dgv)
-        {        
+    partial class Dbconnect
+    {
+
+        public void clocks(DataGridView dgv, ProgressBar bar)
+        {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
             saveFileDialog1.Filter = "dat files (*.dat)|*.dat";
@@ -24,10 +24,12 @@ namespace unis
             {
                 string Savedirectoory = saveFileDialog1.FileName;
                 var f = new FileStream(Savedirectoory, FileMode.Create, FileAccess.ReadWrite);
-            
+
                 var datInfo = new DataTable();
-                var sqlString = string.Format("SELECT tEnter.C_Date,tEnter.Exported, tEnter.C_Time, tEnter.C_Unique, tTerminal.C_Name, tEnter.L_TID FROM  tEnter INNER JOIN tTerminal ON tEnter.L_TID = tTerminal.L_ID");
-                var dbAdapater = new SqlDataAdapter(sqlString,ShareConnection );
+                var sqlString =
+                    string.Format(
+                        "SELECT tEnter.C_Date,tEnter.Exported, tEnter.C_Time, tEnter.C_Unique, tTerminal.C_Name, tEnter.L_TID FROM  tEnter INNER JOIN tTerminal ON tEnter.L_TID = tTerminal.L_ID where tEnter.Exported is null");
+                var dbAdapater = new SqlDataAdapter(sqlString, ShareConnection);
                 dbAdapater.Fill(datInfo);
                 var w = new StreamWriter(f);
 
@@ -35,7 +37,7 @@ namespace unis
 
                 DataSet dataSet = new DataSet();
                 XmlReader xmlFile = XmlReader.Create(@"/DGVXML.xml", new XmlReaderSettings());
-                
+
 
                 var list = new List<string>();
                 var list2 = new List<string>();
@@ -66,27 +68,48 @@ namespace unis
                     return;
                 }
 
-               
+               ShareConnection.Close();
+                ShareConnection.Open();
 
+
+                SqlCommand comm = new SqlCommand("select count(c_name) from tEnter where Exported is null", ShareConnection);
+                Int32 count = (Int32)comm.ExecuteScalar();
+                ShareConnection.Close();
+
+         
+                ShareConnection.Open();
+          
+             
+                //MessageBox.Show("Export process has started this process may take a while","");
                 foreach (DataRow row in datInfo.Rows)
                 {
-                    if (list.Find(i => i == row["C_Name"].ToString()) == null)
-                        continue;
-                    if (row["Exported"].ToString() == "1")
-                    { continue;        
-                   }
+                   
+      bar.Style = ProgressBarStyle.Marquee;
+                Application.DoEvents();
+                   
 
+                    
+                    if (list.Find(i => i == row["C_Name"].ToString()) == null)
+                    {
+                        continue;
+                    }
+
+                    if (row["Exported"].ToString() == "1")
+                    {
+                        continue;
+                    }
 
                     string checktime = row["C_Time"].ToString();
                     string checkDate = row["C_Date"].ToString();
                     string Unique = row["C_Unique"].ToString();
 
-                    string sql = "UPDATE tEnter SET Exported =1 WHERE C_Time =" + checktime + " and C_Date = " + checkDate + " and C_Unique = " + Unique;
-                    ShareConnection.Open();
-                       
+                    string sql = "UPDATE tEnter SET Exported =1 WHERE C_Time =" + checktime + " and C_Date = " +
+                                 checkDate + " and C_Unique = " + Unique;
+
+
                     SqlCommand updateDate = new SqlCommand(sql, ShareConnection);
                     updateDate.ExecuteNonQuery();
-                    ShareConnection.Close();
+
 
                     string direction;
 
@@ -113,7 +136,7 @@ namespace unis
                     try
                     {
                         //Date
-                         dt1 = DateTime.ParseExact(row["C_Date"].ToString(), "yyyyMMdd",
+                        dt1 = DateTime.ParseExact(row["C_Date"].ToString(), "yyyyMMdd",
                             CultureInfo.InvariantCulture);
                         //time
                         dtTime = DateTime.ParseExact(row["C_Time"].ToString(), "HHmmss",
@@ -128,20 +151,17 @@ namespace unis
                     var clock = row["L_TID"].ToString();
                     clock = clock.PadLeft(3, '0');
 
-
                     var datafileRow = String.Format("{0} {1} {2} {3} {4}", employee, dt1.ToString("dd/MM/yyyy"),
                         dtTime.ToString(@"hh\:mm"), direction, clock);
                     w.WriteLine(datafileRow);
-                }
+            }          
                 w.Close();
                 xmlFile.Close();
+         
                 MessageBox.Show("Export complete", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                bar.Style = ProgressBarStyle.Continuous;
+
             }
-
-
-           
-  
-          
         }
-       }
+    }
 }
