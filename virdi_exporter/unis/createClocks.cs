@@ -99,6 +99,13 @@ namespace unis
                     bar.Style = ProgressBarStyle.Marquee;
                     Application.DoEvents();
 
+                    if (ShareConnection.State == ConnectionState.Closed)
+                    {
+                        w.Close();
+                        Application.Exit();
+                        return;
+                    }
+
                     if (list.Find(i => i == row["C_Name"].ToString()) == null)
                     {
                         continue;
@@ -113,18 +120,28 @@ namespace unis
                     string checkDate = row["C_Date"].ToString();
                     string unique = row["C_Unique"].ToString();
 
-                    string sql = "UPDATE tEnter SET Exported =1 WHERE C_Time =" + checktime + " and C_Date = " +
+                    if (unique == "")
+                    {
+                        continue;
+                    }
+                    string sql = "UPDATE tEnter SET Exported = 1 WHERE C_Time = " + checktime + " and C_Date = " +
                                  checkDate + " and C_Unique = " + unique;
+
 
                     SqlCommand update = new SqlCommand(sql, ShareConnection);
 
                     try
                     {
+                        if (ShareConnection.State == ConnectionState.Closed)
+                        {
+                            throw new Exception("connection is closed");
+                        }
                         update.ExecuteNonQuery();
                     }
-                    catch (InvalidOperationException)
-
+                    catch (Exception ex)
                     {
+                        MessageBox.Show(ex.Message);
+                        w.Close();
                         Application.Exit();
                         return;
                     }

@@ -9,7 +9,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
-using unis;
 using NUnit.Framework;
 
 
@@ -18,14 +17,14 @@ namespace Tests
 {
     
     [TestFixture]
-    public class unisTests 
+    public class UnisTests 
     {
-        Form1 form = new Form1();
+      //  Form1 form = new Form1();
      //   form.Open();
 
  
         [Test]
-        public void saveTest()
+        public void SaveTest()
         {    
             DataTable dt = new DataTable();
 
@@ -65,16 +64,16 @@ namespace Tests
 
 
         [Test]
-        public void expotText()
+        public void ExpotText()
         {
-            SqlConnection ShareConnection = new SqlConnection(@"Data Source=KARABO_LAPTOP\SQLEXPRESS;Integrated Security=True;Initial Catalog=Unis");
+            SqlConnection shareConnection = new SqlConnection(@"Data Source=KARABO_LAPTOP\SQLEXPRESS;Integrated Security=True;Initial Catalog=Unis");
             
 
-            if (ShareConnection.State == ConnectionState.Closed)
+            if (shareConnection.State == ConnectionState.Closed)
             {
                 try
                 {
-                    ShareConnection.Open();
+                    shareConnection.Open();
                 }
                 catch (Exception)
                 {
@@ -96,7 +95,7 @@ namespace Tests
                         " tEnter INNER JOIN tTerminal ON tEnter.L_TID = tTerminal.L_ID where" +
                         " tEnter.Exported is null");
 
-                var dbAdapater = new SqlDataAdapter(sqlString, ShareConnection);
+                var dbAdapater = new SqlDataAdapter(sqlString, shareConnection);
                 dbAdapater.Fill(datInfo);
 
                 DataSet dataSet = new DataSet();
@@ -151,7 +150,7 @@ namespace Tests
                     string sql = "UPDATE tEnter SET Exported =1 WHERE C_Time =" + checktime + " and C_Date = " +
                                  checkDate + " and C_Unique = " + unique;
 
-                    SqlCommand update = new SqlCommand(sql, ShareConnection);
+                    SqlCommand update = new SqlCommand(sql, shareConnection);
 
                     try
                     {
@@ -216,7 +215,7 @@ namespace Tests
 
         //tried and tested also.. played with directory 
           [Test]
-        public void loginTest()
+        public void LoginTest()
         {
             int server = 1;
             string username = "hello";
@@ -246,7 +245,7 @@ namespace Tests
 
         //test complete and run properly on two machines just had to change server name
         [Test]
-        public void connectTest()
+        public void ConnectTest()
         { 
             string password= "";
             string servName = @"KARABO_LAPTOP\SQLEXPRESS";

@@ -114,8 +114,11 @@ namespace unis
                 {
                     cNet.ShareConnection.Close();
                 }
-                catch (Exception)
-                { }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    e.Cancel = false;
+                }
             }
             else
             {
