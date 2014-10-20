@@ -35,18 +35,14 @@ namespace unis
 
             try
             {
-            XmlTextWriter xmlSave = new XmlTextWriter(@"/DGVXML.xml", Encoding.UTF8);
+                XmlTextWriter xmlSave = new XmlTextWriter(@"../DGVXML.xml", Encoding.UTF8);
 
             ds.WriteXml(xmlSave);
             xmlSave.Close();
                 ds.Clear();
                 dt.Clear();
                 ds.EndInit();
-                dt.EndInit();
-                
-          
-
-               
+                dt.EndInit();           
             }
             catch (Exception)
             {
@@ -79,10 +75,7 @@ namespace unis
             {
                 xdoc.Add(xml);
             }
-            xdoc.Element("Login").Save("/Login.xml");
-        }
-
-      
-      
+            xdoc.Element("Login").Save("../Login.xml");
+        }   
     }
 }

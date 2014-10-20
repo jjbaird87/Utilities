@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -13,36 +12,54 @@ namespace unis
     partial class Dbconnect
     {
 
-        public void clocks(DataGridView dgv, ProgressBar bar)
+        public void Clocks(DataGridView dgv, ProgressBar bar, Button exe)
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
-            saveFileDialog1.Filter = "dat files (*.dat)|*.dat";
+            exe.Enabled = false;
+            if (ShareConnection.State == ConnectionState.Closed)
+            {
+                try
+                {
+                    ShareConnection.Open();
+                }
+                catch (Exception)
+                {
+                    exe.Enabled = true;
+                    return;
+                }
+            }
+
+            saveFileDialog1.Filter = @"dat files (*.dat)|*.dat";
             saveFileDialog1.RestoreDirectory = true;
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                string Savedirectoory = saveFileDialog1.FileName;
-                var f = new FileStream(Savedirectoory, FileMode.Create, FileAccess.ReadWrite);
+                string savedirectoory = saveFileDialog1.FileName;
+
+
+                var f = new FileStream(savedirectoory, FileMode.Create, FileAccess.ReadWrite);
+
+
+                var w = new StreamWriter(f);
 
                 var datInfo = new DataTable();
                 var sqlString =
                     string.Format(
-                        "SELECT tEnter.C_Date,tEnter.Exported, tEnter.C_Time, tEnter.C_Unique, tTerminal.C_Name, tEnter.L_TID FROM  tEnter INNER JOIN tTerminal ON tEnter.L_TID = tTerminal.L_ID where tEnter.Exported is null");
+                        "SELECT tEnter.C_Date,tEnter.Exported, tEnter" +
+                        ".C_Time, tEnter.C_Unique, tTerminal.C_Name, tEnter.L_TID FROM " +
+                        " tEnter INNER JOIN tTerminal ON tEnter.L_TID = tTerminal.L_ID where" +
+                        " tEnter.Exported is null");
+
                 var dbAdapater = new SqlDataAdapter(sqlString, ShareConnection);
                 dbAdapater.Fill(datInfo);
-                var w = new StreamWriter(f);
-
-
 
                 DataSet dataSet = new DataSet();
-                XmlReader xmlFile = XmlReader.Create(@"/DGVXML.xml", new XmlReaderSettings());
 
+                XmlReader xmlFile = XmlReader.Create(@"../DGVXML.xml", new XmlReaderSettings());
 
                 var list = new List<string>();
-                var list2 = new List<string>();
                 var check = new Dictionary<string, string>();
-
 
                 try
                 {
@@ -53,7 +70,7 @@ namespace unis
                         string cell2 = rows[1].ToString();
                         string cell3 = rows[2].ToString();
 
-                        if (cell2 == "True")
+                        if (cell2 == "True" && cell3 != "")
                         {
                             list.Add(cell1);
                             check.Add(cell1, cell3);
@@ -63,32 +80,25 @@ namespace unis
                 catch (Exception)
                 {
                     MessageBox.Show(
-                        "Exporting to .dat file has failed, please restart the program and set up new export settings",
-                        "Export failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        @"Exporting to .dat file has failed, please restart the program and set up new export settings",
+                        @"Export failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    xmlFile.Close();
+                    exe.Enabled = true;
                     return;
                 }
 
-               ShareConnection.Close();
-                ShareConnection.Open();
+                //ShareConnection.Open();
 
+                //SqlCommand comm = new SqlCommand("select count(c_name) from tEnter where Exported is null",
+                //    ShareConnection);
+                //Int32 count = (Int32) comm.ExecuteScalar();
+                //ShareConnection.Close();
 
-                SqlCommand comm = new SqlCommand("select count(c_name) from tEnter where Exported is null", ShareConnection);
-                Int32 count = (Int32)comm.ExecuteScalar();
-                ShareConnection.Close();
-
-         
-                ShareConnection.Open();
-          
-             
-                //MessageBox.Show("Export process has started this process may take a while","");
                 foreach (DataRow row in datInfo.Rows)
                 {
-                   
-      bar.Style = ProgressBarStyle.Marquee;
-                Application.DoEvents();
-                   
+                    bar.Style = ProgressBarStyle.Marquee;
+                    Application.DoEvents();
 
-                    
                     if (list.Find(i => i == row["C_Name"].ToString()) == null)
                     {
                         continue;
@@ -101,18 +111,25 @@ namespace unis
 
                     string checktime = row["C_Time"].ToString();
                     string checkDate = row["C_Date"].ToString();
-                    string Unique = row["C_Unique"].ToString();
+                    string unique = row["C_Unique"].ToString();
 
                     string sql = "UPDATE tEnter SET Exported =1 WHERE C_Time =" + checktime + " and C_Date = " +
-                                 checkDate + " and C_Unique = " + Unique;
+                                 checkDate + " and C_Unique = " + unique;
 
+                    SqlCommand update = new SqlCommand(sql, ShareConnection);
 
-                    SqlCommand updateDate = new SqlCommand(sql, ShareConnection);
-                    updateDate.ExecuteNonQuery();
+                    try
+                    {
+                        update.ExecuteNonQuery();
+                    }
+                    catch (InvalidOperationException)
 
+                    {
+                        Application.Exit();
+                        return;
+                    }
 
                     string direction;
-
                     string value1 = row["C_name"].ToString();
                     string value2;
 
@@ -154,13 +171,12 @@ namespace unis
                     var datafileRow = String.Format("{0} {1} {2} {3} {4}", employee, dt1.ToString("dd/MM/yyyy"),
                         dtTime.ToString(@"hh\:mm"), direction, clock);
                     w.WriteLine(datafileRow);
-            }          
+                }
                 w.Close();
                 xmlFile.Close();
-         
-                MessageBox.Show("Export complete", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                exe.Enabled = true;
                 bar.Style = ProgressBarStyle.Continuous;
-
+                MessageBox.Show(@"Export complete", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

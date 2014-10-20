@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Threading;
 using System.Windows.Forms;
 
-namespace unis
+namespace unis 
 {
     public partial class Form1 : Form
     {
@@ -50,7 +49,7 @@ namespace unis
         {
          
            btnSave_Click(sender,e);
-            cNet.clocks(DataView,progressBar1);
+            cNet.Clocks(DataView,progressBar1,btnExport);
             Application.DoEvents();
         }
 
@@ -71,7 +70,8 @@ namespace unis
             BtnLoadSettings.Enabled = false;
             DataView.Enabled = false;
             button3_Click_2(sender, e);
-            cNet.LoadLogin(TXTServNameIP,txtUserName,txtPassword);          
+            cNet.LoadLogin(TXTServNameIP,txtUserName,txtPassword); 
+         
         }
 
             
@@ -80,11 +80,6 @@ namespace unis
             seting.Save(DataView);
         }
 
-
-        private void button3_Click_1(object sender, EventArgs e)
-        {
-            cNet.Load(DataView);
-        }
 
 
         private void button3_Click_2(object sender, EventArgs e)
@@ -104,6 +99,27 @@ namespace unis
             {
                 txtPassword.Enabled = true;
                 txtUserName.Enabled = true;
+            }
+        }
+
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult result = MessageBox.Show(@"Exit Application?", @"Exit", MessageBoxButtons.YesNo,
+              MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    cNet.ShareConnection.Close();
+                }
+                catch (Exception)
+                { }
+            }
+            else
+            {
+                e.Cancel = true;
             }
         }
 

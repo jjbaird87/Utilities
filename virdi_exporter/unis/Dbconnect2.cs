@@ -42,7 +42,7 @@ namespace unis
             try
             {
                 XmlDocument doc = new XmlDocument();
-                doc.Load("/Login.xml");
+                doc.Load("../Login.xml");
                 XmlNode node = doc.SelectSingleNode("/Login/Login/ServerId");
                 server.Text = node.InnerText;
 
@@ -54,7 +54,6 @@ namespace unis
             }
             catch (Exception)
             {
-
                 MessageBox.Show(@"First run of the program, login details will be saved apon successful login", "",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -69,7 +68,7 @@ namespace unis
             try
             {
                 dgv.Refresh();
-                XmlReader xmlFile = XmlReader.Create(@"/DGVXML.xml", new XmlReaderSettings());
+                XmlReader xmlFile = XmlReader.Create(@"../DGVXML.xml", new XmlReaderSettings());
                 DataSet dataSet = new DataSet();
                 dataSet.ReadXml(xmlFile);
 

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.TXTServNameIP = new System.Windows.Forms.TextBox();
             this.txtUserName = new System.Windows.Forms.TextBox();
@@ -46,11 +45,9 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.BtnLoadSettings = new System.Windows.Forms.Button();
             this.DataView = new System.Windows.Forms.DataGridView();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.label4 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataView)).BeginInit();
@@ -62,7 +59,7 @@
             this.TXTServNameIP.Name = "TXTServNameIP";
             this.TXTServNameIP.Size = new System.Drawing.Size(140, 20);
             this.TXTServNameIP.TabIndex = 0;
-            this.TXTServNameIP.Text = "\r\n ";
+            this.TXTServNameIP.Text = "\r\n";
             // 
             // txtUserName
             // 
@@ -118,9 +115,10 @@
             this.groupBox1.Controls.Add(this.TXTServNameIP);
             this.groupBox1.Controls.Add(this.txtUserName);
             this.groupBox1.Controls.Add(this.txtPassword);
-            this.groupBox1.Location = new System.Drawing.Point(9, -1);
+            this.groupBox1.ForeColor = System.Drawing.Color.Black;
+            this.groupBox1.Location = new System.Drawing.Point(7, 1);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(222, 348);
+            this.groupBox1.Size = new System.Drawing.Size(229, 348);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             // 
@@ -196,7 +194,7 @@
             this.btnViewDefault.Name = "btnViewDefault";
             this.btnViewDefault.Size = new System.Drawing.Size(122, 23);
             this.btnViewDefault.TabIndex = 10;
-            this.btnViewDefault.Text = "Default export settings";
+            this.btnViewDefault.Text = "Default settings";
             this.btnViewDefault.UseVisualStyleBackColor = false;
             this.btnViewDefault.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -242,10 +240,6 @@
             this.DataView.Size = new System.Drawing.Size(370, 273);
             this.DataView.TabIndex = 11;
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -266,16 +260,12 @@
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.TabIndex = 15;
             // 
-            // timer1
-            // 
-            this.timer1.Interval = 5000;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(635, 355);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label4);
@@ -285,10 +275,12 @@
             this.Controls.Add(this.btnViewDefault);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnExport);
+            this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "ANV HOLDINGS (PTY) LTD - VIRDI CLOCKING COLLECTOR ";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -313,7 +305,6 @@
         private System.Windows.Forms.DataGridView DataView;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button BtnLoadSettings;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox CheckBoxW_authenticate;
@@ -321,7 +312,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Timer timer1;
     }
 }
 

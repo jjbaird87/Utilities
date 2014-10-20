@@ -10,7 +10,7 @@ namespace unis
     {
         public SqlConnection ShareConnection = new SqlConnection();
 
-
+  
 
         public void Dbconnection(string password, string servName, string userName, bool authenticate)
         {
@@ -45,8 +45,6 @@ namespace unis
 
             try
             {
-
-
                 aConnect.Open();                      
                 var dBtables = new DataTable();
                 string sqlString = "Select TOP 1 * from dbo.Tenter;";
@@ -54,7 +52,7 @@ namespace unis
                 dbAdapater.Fill(dBtables);
                 int i = dBtables.Columns.IndexOf("Exported");
 
-                MessageBox.Show("Connection to database was successful", "Connected", MessageBoxButtons.OK);
+                MessageBox.Show(@"Connection to database was successful", @"Connected", MessageBoxButtons.OK);
 
                 //create exported if not found
                 if (i == -1)                 
@@ -74,5 +72,6 @@ namespace unis
                 addColumn.ExecuteNonQuery();
             }
         }
+
     }
 }
