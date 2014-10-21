@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Runtime.InteropServices;
+using System.Timers;
 using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace unis 
 {
@@ -7,7 +10,7 @@ namespace unis
     {
         private Dbconnect cNet = new Dbconnect();
         private Settings seting = new Settings();
-
+        private bool tymReach;
 
         public Form1()
         {
@@ -17,10 +20,9 @@ namespace unis
         private void button1_Click(object sender, EventArgs e)
         {
 
-            bool authent =false;
+            bool authent = false;
             try
             {
-
                 if (TXTServNameIP.Text == "")
                 {
                     return;
@@ -34,8 +36,7 @@ namespace unis
                 btnViewDefault.Enabled = true;
                 BtnLoadSettings.Enabled = true;
                 DataView.Enabled = true;
-                seting.LoginSave(txtUserName.Text,TXTServNameIP.Text,txtPassword.Text);
-              
+                seting.LoginSave(txtUserName.Text, TXTServNameIP.Text, txtPassword.Text);
             }
             catch (Exception ex)
             {
@@ -47,9 +48,8 @@ namespace unis
 
         private void button2_Click(object sender, EventArgs e)
         {
-         
-           btnSave_Click(sender,e);
-            cNet.Clocks(DataView,progressBar1,btnExport);
+            btnSave_Click(sender, e);
+           cNet.Clocks(DataView, progressBar1, btnExport, timer1);
             Application.DoEvents();
         }
 
@@ -62,7 +62,7 @@ namespace unis
 
 
         private void Form1_Load(object sender, EventArgs e)
-        {       
+        { 
             btnSave.Enabled = false;
             btnViewDefault.Enabled = false;
             btnExport.Enabled = false;
@@ -70,11 +70,11 @@ namespace unis
             BtnLoadSettings.Enabled = false;
             DataView.Enabled = false;
             button3_Click_2(sender, e);
-            cNet.LoadLogin(TXTServNameIP,txtUserName,txtPassword); 
-         
+            cNet.LoadLogin(TXTServNameIP, txtUserName, txtPassword);
+            timer1.Stop();
         }
 
-            
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             seting.Save(DataView);
@@ -84,8 +84,8 @@ namespace unis
 
         private void button3_Click_2(object sender, EventArgs e)
         {
-          DataView.Columns.Clear();
-           cNet.Load(DataView);
+            DataView.Columns.Clear();
+            cNet.Load(DataView);
         }
 
         private void CheckBoxW_authenticate_CheckedChanged(object sender, EventArgs e)
@@ -106,7 +106,7 @@ namespace unis
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult result = MessageBox.Show(@"Exit Application?", @"Exit", MessageBoxButtons.YesNo,
-              MessageBoxIcon.Question);
+                MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
@@ -127,5 +127,13 @@ namespace unis
         }
 
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            //300000    
+            if (timer1.Interval == 300000)
+            {
+                cNet.TimedClocks(DataView, progressBar1, btnExport,timer1);         
+            }
+        }
     }
 }
