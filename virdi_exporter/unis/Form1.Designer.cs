@@ -36,6 +36,7 @@
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -50,6 +51,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataView)).BeginInit();
@@ -97,9 +99,9 @@
             this.btnExport.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Green;
             this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExport.Location = new System.Drawing.Point(540, 287);
+            this.btnExport.Location = new System.Drawing.Point(553, 284);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(88, 23);
+            this.btnExport.Size = new System.Drawing.Size(77, 23);
             this.btnExport.TabIndex = 5;
             this.btnExport.Text = "Export .dat file";
             this.btnExport.UseVisualStyleBackColor = false;
@@ -124,9 +126,20 @@
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.Color.Green;
+            this.label6.Location = new System.Drawing.Point(516, 316);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(120, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Next export in: 00:00:00";
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Black;
             this.label5.ForeColor = System.Drawing.Color.Green;
             this.label5.Location = new System.Drawing.Point(6, 313);
             this.label5.Name = "label5";
@@ -147,6 +160,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Black;
             this.label3.ForeColor = System.Drawing.Color.Green;
             this.label3.Location = new System.Drawing.Point(4, 32);
             this.label3.Name = "label3";
@@ -157,18 +171,20 @@
             // CheckBoxW_authenticate
             // 
             this.CheckBoxW_authenticate.AutoSize = true;
+            this.CheckBoxW_authenticate.BackColor = System.Drawing.Color.Black;
             this.CheckBoxW_authenticate.ForeColor = System.Drawing.Color.Green;
             this.CheckBoxW_authenticate.Location = new System.Drawing.Point(40, 141);
             this.CheckBoxW_authenticate.Name = "CheckBoxW_authenticate";
             this.CheckBoxW_authenticate.Size = new System.Drawing.Size(140, 17);
             this.CheckBoxW_authenticate.TabIndex = 10;
             this.CheckBoxW_authenticate.Text = "Windows authentication";
-            this.CheckBoxW_authenticate.UseVisualStyleBackColor = true;
+            this.CheckBoxW_authenticate.UseVisualStyleBackColor = false;
             this.CheckBoxW_authenticate.CheckedChanged += new System.EventHandler(this.CheckBoxW_authenticate_CheckedChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Black;
             this.label2.ForeColor = System.Drawing.Color.Green;
             this.label2.Location = new System.Drawing.Point(18, 105);
             this.label2.Name = "label2";
@@ -179,6 +195,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Black;
             this.label1.ForeColor = System.Drawing.Color.Green;
             this.label1.Location = new System.Drawing.Point(11, 70);
             this.label1.Name = "label1";
@@ -192,9 +209,9 @@
             this.btnViewDefault.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Green;
             this.btnViewDefault.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnViewDefault.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnViewDefault.Location = new System.Drawing.Point(242, 287);
+            this.btnViewDefault.Location = new System.Drawing.Point(243, 284);
             this.btnViewDefault.Name = "btnViewDefault";
-            this.btnViewDefault.Size = new System.Drawing.Size(122, 23);
+            this.btnViewDefault.Size = new System.Drawing.Size(106, 23);
             this.btnViewDefault.TabIndex = 10;
             this.btnViewDefault.Text = "Default settings";
             this.btnViewDefault.UseVisualStyleBackColor = false;
@@ -206,11 +223,11 @@
             this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Green;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(461, 287);
+            this.btnSave.Location = new System.Drawing.Point(452, 284);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(73, 23);
+            this.btnSave.Size = new System.Drawing.Size(97, 23);
             this.btnSave.TabIndex = 12;
-            this.btnSave.Text = "Save";
+            this.btnSave.Text = "Save settings";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -220,9 +237,9 @@
             this.BtnLoadSettings.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Green;
             this.BtnLoadSettings.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.BtnLoadSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnLoadSettings.Location = new System.Drawing.Point(370, 287);
+            this.BtnLoadSettings.Location = new System.Drawing.Point(354, 284);
             this.BtnLoadSettings.Name = "BtnLoadSettings";
-            this.BtnLoadSettings.Size = new System.Drawing.Size(85, 23);
+            this.BtnLoadSettings.Size = new System.Drawing.Size(95, 23);
             this.BtnLoadSettings.TabIndex = 13;
             this.BtnLoadSettings.Text = "Load Settings";
             this.BtnLoadSettings.UseVisualStyleBackColor = false;
@@ -237,16 +254,16 @@
             this.DataView.AllowUserToResizeRows = false;
             this.DataView.BackgroundColor = System.Drawing.Color.Green;
             this.DataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataView.Location = new System.Drawing.Point(250, 8);
+            this.DataView.Location = new System.Drawing.Point(253, 6);
             this.DataView.Name = "DataView";
-            this.DataView.Size = new System.Drawing.Size(370, 273);
+            this.DataView.Size = new System.Drawing.Size(369, 273);
             this.DataView.TabIndex = 11;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.Color.Green;
-            this.label4.Location = new System.Drawing.Point(349, 338);
+            this.label4.Location = new System.Drawing.Point(356, 336);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(283, 13);
             this.label4.TabIndex = 14;
@@ -255,10 +272,10 @@
             // progressBar1
             // 
             this.progressBar1.ForeColor = System.Drawing.Color.ForestGreen;
-            this.progressBar1.Location = new System.Drawing.Point(243, 320);
+            this.progressBar1.Location = new System.Drawing.Point(244, 316);
             this.progressBar1.MarqueeAnimationSpeed = 50;
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(100, 23);
+            this.progressBar1.Size = new System.Drawing.Size(110, 29);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.TabIndex = 15;
             // 
@@ -267,13 +284,19 @@
             this.timer1.Interval = 300000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // timer2
+            // 
+            this.timer2.Interval = 1000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(635, 355);
+            this.ClientSize = new System.Drawing.Size(641, 355);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.BtnLoadSettings);
@@ -320,6 +343,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 

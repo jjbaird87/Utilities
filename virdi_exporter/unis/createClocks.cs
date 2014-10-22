@@ -11,14 +11,14 @@ namespace unis
 {
     partial class Dbconnect
     {
-       private int count = 0;
-        private string savedirectoory  ="";
+        private int count=0;
+        private string _savedirectoory = "";
 
-
-
-
-        public void TimedClocks(DataGridView dgv, ProgressBar bar, Button exe,Timer tym)
+      
+        public void TimedClocks(DataGridView dgv, ProgressBar bar, Button exe, Timer tym,Timer tymUPdate)
         {
+            tymUPdate.Stop();
+            tym.Stop();
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
             exe.Enabled = false;
@@ -35,12 +35,8 @@ namespace unis
                 }
             }
 
+            saveFileDialog1.RestoreDirectory = true;
 
-          //  saveFileDialog1.Filter = @"dat files (*.dat)|*.dat";
-           saveFileDialog1.RestoreDirectory = true;
-
-            //C:\Users\Karabo\Desktop\HF(1).dat
-            //C:\Users\Karabo\Desktop\HFt
             count++;
             //if (savedirectoory.Contains("("))
             //{
@@ -52,7 +48,7 @@ namespace unis
             //}
             //    savedirectoory = savedirectoory.Insert(savedirectoory.Length - 4, "(" + count + ")");
 
-            var f = new FileStream(savedirectoory, FileMode.Append, FileAccess.Write);
+            var f = new FileStream(_savedirectoory, FileMode.Append, FileAccess.Write);
 
             var w = new StreamWriter(f);
 
@@ -69,7 +65,7 @@ namespace unis
 
             DataSet dataSet = new DataSet();
 
-            XmlReader xmlFile = XmlReader.Create(@"../DGVXML.xml", new XmlReaderSettings());
+            XmlReader xmlFile = XmlReader.Create(@"C:\Users\Public\VIRDI CLOCKING\DGVXML.xml", new XmlReaderSettings());
 
             var list = new List<string>();
             var check = new Dictionary<string, string>();
@@ -109,12 +105,12 @@ namespace unis
             foreach (DataRow row in datInfo.Rows)
             {
                 tym.Stop();
+               
                 bar.Style = ProgressBarStyle.Marquee;
                 Application.DoEvents();
 
                 if (ShareConnection.State == ConnectionState.Closed)
                 {
-                    w.Close();
                     Application.Exit();
                     return;
                 }
@@ -141,7 +137,7 @@ namespace unis
                              checkDate + " and C_Unique = " + unique;
 
 
-                SqlCommand update = new SqlCommand(sql, ShareConnection);
+                var update = new SqlCommand(sql, ShareConnection);
 
                 try
                 {
@@ -153,8 +149,7 @@ namespace unis
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
-                    w.Close();
+                    MessageBox.Show(ex.Message);       
                     Application.Exit();
                     return;
                 }
@@ -203,16 +198,27 @@ namespace unis
                 w.WriteLine(datafileRow);
             }
             tym.Start();
-            w.Close();
+            tymUPdate.Start();
+            try
+            {
+                w.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+
             xmlFile.Close();
             exe.Enabled = true;
             bar.Style = ProgressBarStyle.Continuous;
         }
 
 
-
-        public void Clocks(DataGridView dgv, ProgressBar bar, Button exe,Timer tym)
+        public void Clocks(DataGridView dgv, ProgressBar bar, Button exe, Timer tym,Timer tymUPdate)
         {
+            tymUPdate.Stop();
+            tym.Stop();
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
             exe.Enabled = false;
@@ -228,19 +234,17 @@ namespace unis
                     return;
                 }
             }
-           
+
             saveFileDialog1.Filter = @"dat files (*.dat)|*.dat";
             saveFileDialog1.RestoreDirectory = true;
 
-            
-                 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {            
-                 savedirectoory = saveFileDialog1.FileName;
+            {
+                _savedirectoory = saveFileDialog1.FileName;
                 //C:\Users\Karabo\Desktop\HF.dat
-                                
-                var f = new FileStream(savedirectoory, FileMode.Create, FileAccess.ReadWrite);
-           
+
+                var f = new FileStream(_savedirectoory, FileMode.Create, FileAccess.ReadWrite);
+
                 var w = new StreamWriter(f);
 
                 var datInfo = new DataTable();
@@ -256,7 +260,7 @@ namespace unis
 
                 DataSet dataSet = new DataSet();
 
-                XmlReader xmlFile = XmlReader.Create(@"../DGVXML.xml", new XmlReaderSettings());
+                XmlReader xmlFile = XmlReader.Create( @"C:\Users\Public\VIRDI CLOCKING\DGVXML.xml", new XmlReaderSettings());
 
                 var list = new List<string>();
                 var check = new Dictionary<string, string>();
@@ -293,7 +297,7 @@ namespace unis
                 //    ShareConnection);
                 //Int32 count = (Int32) comm.ExecuteScalar();
                 //ShareConnection.Close();
-                
+
                 foreach (DataRow row in datInfo.Rows)
                 {
                     tym.Stop();
@@ -301,8 +305,7 @@ namespace unis
                     Application.DoEvents();
 
                     if (ShareConnection.State == ConnectionState.Closed)
-                    {
-                        w.Close();
+                    {                 
                         Application.Exit();
                         return;
                     }
@@ -329,7 +332,7 @@ namespace unis
                                  checkDate + " and C_Unique = " + unique;
 
 
-                    SqlCommand update = new SqlCommand(sql, ShareConnection);
+                    var update = new SqlCommand(sql, ShareConnection);
 
                     try
                     {
@@ -342,7 +345,6 @@ namespace unis
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
-                        w.Close();
                         Application.Exit();
                         return;
                     }
@@ -390,13 +392,14 @@ namespace unis
                         dtTime.ToString(@"hh\:mm"), direction, clock);
                     w.WriteLine(datafileRow);
                 }
-                
                 tym.Start();
-                w.Close();
+                tymUPdate.Start();
+                w.Dispose();         
                 xmlFile.Close();
                 exe.Enabled = true;
                 bar.Style = ProgressBarStyle.Continuous;
                 MessageBox.Show(@"Export complete", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
         }
     }

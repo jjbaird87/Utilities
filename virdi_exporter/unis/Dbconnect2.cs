@@ -36,13 +36,12 @@ namespace unis
         }
 
 
-
         public void LoadLogin(TextBox server, TextBox user, TextBox pass)
         {
             try
             {
                 XmlDocument doc = new XmlDocument();
-                doc.Load("../Login.xml");
+                doc.Load(@"C:\Users\Public\VIRDI CLOCKING\Login.xml");
                 XmlNode node = doc.SelectSingleNode("/Login/Login/ServerId");
                 server.Text = node.InnerText;
 
@@ -61,23 +60,22 @@ namespace unis
         }
 
 
-
         public void Load(DataGridView dgv)
         {
             dgv.DataSource = null;
             try
             {
                 dgv.Refresh();
-                XmlReader xmlFile = XmlReader.Create(@"../DGVXML.xml", new XmlReaderSettings());
+                XmlReader xmlFile = XmlReader.Create(@"C:\Users\Public\VIRDI CLOCKING\DGVXML.xml", new XmlReaderSettings());
                 DataSet dataSet = new DataSet();
                 dataSet.ReadXml(xmlFile);
 
-               // DataGridView grid = new DataGridView();
 
                 var nameColumn = new DataGridViewTextBoxColumn();
                 nameColumn.Name = "Device Name";
                 nameColumn.HeaderText = @"Device Name";
                 dgv.Columns.Add(nameColumn);
+                dgv.Columns["Device Name"].ReadOnly = true;
                 
 
                 var checkColumn = new DataGridViewCheckBoxColumn();

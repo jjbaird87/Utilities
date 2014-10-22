@@ -59,5 +59,15 @@ namespace unis.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ANV_Logo_Icon_only {
+            get {
+                object obj = ResourceManager.GetObject("ANV_Logo_Icon_only", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

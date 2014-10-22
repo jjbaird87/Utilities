@@ -35,7 +35,7 @@ namespace unis
 
             try
             {
-                XmlTextWriter xmlSave = new XmlTextWriter(@"../DGVXML.xml", Encoding.UTF8);
+                XmlTextWriter xmlSave = new XmlTextWriter(@"C:\Users\Public\VIRDI CLOCKING\DGVXML.xml", Encoding.UTF8);
 
             ds.WriteXml(xmlSave);
             xmlSave.Close();
@@ -46,7 +46,6 @@ namespace unis
             }
             catch (Exception)
             {
-
                 MessageBox.Show(@"Save attempt failed, please restart the program or load default settings and and try save again", @"Save failed",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -68,14 +67,13 @@ namespace unis
               new XElement("UserId", username),
               new XElement("Password", password));
 
-
             if (xdoc.Descendants().Count() > 0)
                 xdoc.Descendants().First().Add(xml);
             else
             {
                 xdoc.Add(xml);
             }
-            xdoc.Element("Login").Save("../Login.xml");
+            xdoc.Element("Login").Save(@"C:\Users\Public\VIRDI CLOCKING\Login.xml");
         }   
     }
 }
