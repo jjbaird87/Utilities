@@ -10,10 +10,11 @@ namespace unis
     {
         public SqlConnection ShareConnection = new SqlConnection();
 
-  
+  ToolSettings tools = new ToolSettings();
 
-        public void Dbconnection(string password, string servName, string userName, bool authenticate)
+        public void Dbconnection(string password, string servName, string userName, bool authenticate,Button btnSave,Button btnViewDefault,Button btnExport, Button BtnLoadSettings, DataGridView DataView, Button btnConnect)
         {
+            
                string  connectionString = "Data Source=";
                 connectionString += servName + ";";
 
@@ -53,6 +54,8 @@ namespace unis
                 int i = dBtables.Columns.IndexOf("Exported");
 
                 MessageBox.Show(@"Connection to database was successful", @"Connected", MessageBoxButtons.OK);
+
+                tools.Connected(btnSave, btnViewDefault, btnExport, BtnLoadSettings, DataView, btnConnect);
 
                 //create exported if not found
                 if (i == -1)                 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Forms;
 
 namespace unis
@@ -15,6 +14,17 @@ namespace unis
             btnLoadSettings.Enabled = false;
             dataView.Enabled = false;        
         }
+
+
+        public void path()
+        {
+            string p = @"C:\Users\Public\VIRDI CLOCKING";
+            if (!Directory.Exists(p))
+            {
+                Directory.CreateDirectory(p);
+            }
+        }
+
 
 
         public void WindowsCheckd(TextBox pass, TextBox user, CheckBox checkBoxW)
@@ -41,24 +51,6 @@ namespace unis
                 btnLoadSettings.Enabled = true;
                 dataView.Enabled = true;
             connect.Enabled = false;
-        }
-        
-
-        public void createDirectory()
-        {
-            try
-            {
-                var path = @"C:\Users\Public\VIRDI CLOCKING";
-                if (! Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                throw;
-            }
         }
     }
 }

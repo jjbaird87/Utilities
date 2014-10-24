@@ -2,23 +2,80 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace unis
 {
     partial class Dbconnect
     {
-        private int count=0;
-        private string _savedirectoory = "";
-
       
-        public void TimedClocks(DataGridView dgv, ProgressBar bar, Button exe, Timer tym,Timer tymUPdate)
+        private string _savedirectoory = "";
+        private string RunEXEfile = "";
+
+
+        public void RunFile(CheckBox exe)
         {
-            tymUPdate.Stop();
-            tym.Stop();
+            if (exe.Checked == true)
+            {
+                Process proc = new Process();
+                proc.StartInfo.FileName = RunEXEfile;
+                proc.StartInfo.UseShellExecute = true;
+                try
+                {
+                    proc.Start();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+
+
+        public void fileSave(string check,TextBox nameFile)
+        {
+            XDocument xdoc = new XDocument(new XElement("File"));
+
+            xdoc = new XDocument();
+            XElement xmlstart = new XElement("File");
+            xdoc.Add(xmlstart);
+
+            XElement xml =
+                           new XElement("FilePath",
+              new XElement("FileName", nameFile.Text),
+              new XElement("Checked", check)
+             );
+
+            if (xdoc.Descendants().Count() > 0)
+                xdoc.Descendants().First().Add(xml);
+            else
+            {
+                xdoc.Add(xml);
+            }
+            xdoc.Element("File").Save(@"C:\Users\Public\VIRDI CLOCKING\ExeFile.xml");
+        }
+
+        public void browser(TextBox file)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = @"All |*";
+            openFile.ShowDialog();
+            RunEXEfile = openFile.FileName;
+            file.Text = RunEXEfile;
+        }
+
+        public void TimedClocks(DataGridView dgv, ProgressBar bar, Button exe, Timer tym,Timer tymupdate,string state,CheckBox fileRun)
+        {       
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
             exe.Enabled = false;
@@ -36,18 +93,8 @@ namespace unis
             }
 
             saveFileDialog1.RestoreDirectory = true;
-
-            count++;
-            //if (savedirectoory.Contains("("))
-            //{
-            //    savedirectoory = savedirectoory.Remove(savedirectoory.Length - 7, 3);
-            //}
-            //if (savedirectoory.Contains("(("))
-            //{ 
-            //    savedirectoory = savedirectoory.Remove(savedirectoory.Length - 8, 4);
-            //}
-            //    savedirectoory = savedirectoory.Insert(savedirectoory.Length - 4, "(" + count + ")");
-
+         
+           
             var f = new FileStream(_savedirectoory, FileMode.Append, FileAccess.Write);
 
             var w = new StreamWriter(f);
@@ -104,8 +151,7 @@ namespace unis
 
             foreach (DataRow row in datInfo.Rows)
             {
-                tym.Stop();
-               
+              
                 bar.Style = ProgressBarStyle.Marquee;
                 Application.DoEvents();
 
@@ -134,7 +180,7 @@ namespace unis
                     continue;
                 }
                 string sql = "UPDATE tEnter SET Exported = 1 WHERE C_Time = " + checktime + " and C_Date = " +
-                             checkDate + " and C_Unique = " + unique;
+                             checkDate + " and C_Unique = '" + unique +"'";
 
 
                 var update = new SqlCommand(sql, ShareConnection);
@@ -198,7 +244,6 @@ namespace unis
                 w.WriteLine(datafileRow);
             }
             tym.Start();
-            tymUPdate.Start();
             try
             {
                 w.Dispose();
@@ -208,18 +253,20 @@ namespace unis
                 MessageBox.Show(ex.Message);
 
             }
-
+            tym.Start();
+            tymupdate.Start();
             xmlFile.Close();
             exe.Enabled = true;
             bar.Style = ProgressBarStyle.Continuous;
+            RunFile(fileRun);
         }
 
 
-        public void Clocks(DataGridView dgv, ProgressBar bar, Button exe, Timer tym,Timer tymUPdate)
+        public void Clocks(DataGridView dgv, ProgressBar bar, Button exe, Timer tym, Timer tymUpdate,string state,CheckBox ChkEXE)
         {
-            tymUPdate.Stop();
             tym.Stop();
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            tymUpdate.Stop();
+            var saveFileDialog1 = new SaveFileDialog();
 
             exe.Enabled = false;
             if (ShareConnection.State == ConnectionState.Closed)
@@ -237,10 +284,12 @@ namespace unis
 
             saveFileDialog1.Filter = @"dat files (*.dat)|*.dat";
             saveFileDialog1.RestoreDirectory = true;
-
+            saveFileDialog1.FileName = "Clocks";
+        
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 _savedirectoory = saveFileDialog1.FileName;
+             
                 //C:\Users\Karabo\Desktop\HF.dat
 
                 var f = new FileStream(_savedirectoory, FileMode.Create, FileAccess.ReadWrite);
@@ -260,7 +309,7 @@ namespace unis
 
                 DataSet dataSet = new DataSet();
 
-                XmlReader xmlFile = XmlReader.Create( @"C:\Users\Public\VIRDI CLOCKING\DGVXML.xml", new XmlReaderSettings());
+                XmlReader xmlFile = XmlReader.Create(@"C:\Users\Public\VIRDI CLOCKING\DGVXML.xml", new XmlReaderSettings());
 
                 var list = new List<string>();
                 var check = new Dictionary<string, string>();
@@ -291,13 +340,6 @@ namespace unis
                     return;
                 }
 
-                //ShareConnection.Open();
-
-                //SqlCommand comm = new SqlCommand("select count(c_name) from tEnter where Exported is null",
-                //    ShareConnection);
-                //Int32 count = (Int32) comm.ExecuteScalar();
-                //ShareConnection.Close();
-
                 foreach (DataRow row in datInfo.Rows)
                 {
                     tym.Stop();
@@ -314,12 +356,7 @@ namespace unis
                     {
                         continue;
                     }
-
-                    if (row["Exported"].ToString() == "1")
-                    {
-                        continue;
-                    }
-
+                 
                     string checktime = row["C_Time"].ToString();
                     string checkDate = row["C_Date"].ToString();
                     string unique = row["C_Unique"].ToString();
@@ -329,7 +366,7 @@ namespace unis
                         continue;
                     }
                     string sql = "UPDATE tEnter SET Exported = 1 WHERE C_Time = " + checktime + " and C_Date = " +
-                                 checkDate + " and C_Unique = " + unique;
+                                 checkDate + " and C_Unique = '"+ unique +"'";
 
 
                     var update = new SqlCommand(sql, ShareConnection);
@@ -392,14 +429,15 @@ namespace unis
                         dtTime.ToString(@"hh\:mm"), direction, clock);
                     w.WriteLine(datafileRow);
                 }
+
                 tym.Start();
-                tymUPdate.Start();
+                tymUpdate.Start();
                 w.Dispose();         
                 xmlFile.Close();
                 exe.Enabled = true;
                 bar.Style = ProgressBarStyle.Continuous;
                 MessageBox.Show(@"Export complete", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+        
             }
         }
     }

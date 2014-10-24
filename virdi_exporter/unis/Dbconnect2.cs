@@ -59,6 +59,36 @@ namespace unis
          
         }
 
+     
+
+        public void fileNmeLoader(TextBox name,CheckBox exe)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(@"C:\Users\Public\VIRDI CLOCKING\ExeFile.xml");
+                XmlNode node = doc.SelectSingleNode("/File/FilePath/FileName");
+                name.Text = node.InnerText;
+
+                RunEXEfile = node.InnerText;
+                XmlNode node2 = doc.SelectSingleNode("/File/FilePath/Checked");
+                if (node2.ToString() == "Unchecked")
+                {
+                    exe.Checked = false;
+                }
+                else
+                {
+                    exe.Checked = true;
+                }          
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(@"File for execution not found or has not been created yet", @"File missing",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        
 
         public void Load(DataGridView dgv)
         {
