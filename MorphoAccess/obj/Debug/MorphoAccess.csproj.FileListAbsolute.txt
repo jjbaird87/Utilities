@@ -1,0 +1,11 @@
+c:\users\karabo\documents\visual studio 2013\Projects\MorphoAccess\MorphoAccess\bin\Debug\MorphoAccess.exe.config
+c:\users\karabo\documents\visual studio 2013\Projects\MorphoAccess\MorphoAccess\bin\Debug\MorphoAccess.exe
+c:\users\karabo\documents\visual studio 2013\Projects\MorphoAccess\MorphoAccess\bin\Debug\MorphoAccess.pdb
+c:\users\karabo\documents\visual studio 2013\Projects\MorphoAccess\MorphoAccess\bin\Debug\IPv4InputBox.dll
+c:\users\karabo\documents\visual studio 2013\Projects\MorphoAccess\MorphoAccess\obj\Debug\MorphoAccess.csprojResolveAssemblyReference.cache
+c:\users\karabo\documents\visual studio 2013\Projects\MorphoAccess\MorphoAccess\obj\Debug\MorphoAccess.Form1.resources
+c:\users\karabo\documents\visual studio 2013\Projects\MorphoAccess\MorphoAccess\obj\Debug\MorphoAccess.Properties.Resources.resources
+c:\users\karabo\documents\visual studio 2013\Projects\MorphoAccess\MorphoAccess\obj\Debug\MorphoAccess.csproj.GenerateResource.Cache
+c:\users\karabo\documents\visual studio 2013\Projects\MorphoAccess\MorphoAccess\obj\Debug\MorphoAccess.exe
+c:\users\karabo\documents\visual studio 2013\Projects\MorphoAccess\MorphoAccess\obj\Debug\MorphoAccess.pdb
+c:\users\karabo\documents\visual studio 2013\Projects\MorphoAccess\MorphoAccess\bin\Debug\Morpho.MorphoAccess.Maci.dll
