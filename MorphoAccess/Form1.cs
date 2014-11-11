@@ -34,8 +34,8 @@ namespace MorphoAccess
       m_prefixBioItemType, 
       m_prefixFactorySettings;
 
-       
-   
+
+        private IDictionary<string, string> UserData;
 
         public Form1()
         {
@@ -48,7 +48,7 @@ namespace MorphoAccess
             m_prefixBioItemType = "BIOITEM_TYPE_";
             m_prefixFactorySettings = "FACTORY_";
 
-
+            UserData = new Dictionary<string, string>();
         
             string[] enumerationValueNames = Enum.GetNames(LogAction.LOG_ACTION_ADD_USER.GetType());
            
@@ -175,30 +175,69 @@ namespace MorphoAccess
                 GetBioDataId(comboFinger1Id), GetBioDataId(comboFinger2Id), GetBioDataId(comboDuressId));
         }
 
-   
+        private LocalRecord GetDatabaseProxyRecord()
+        {
+            BioDataFormat format = BioDataFormat.BIO_FORMAT_UNDEFINED;
+            if (!Enum.TryParse<BioDataFormat>(comboTemplateFormat.SelectedItem.ToString(), out format))
+            {
+                format = BioDataFormat.BIO_FORMAT_UNDEFINED;
+            }
+            return new LocalRecord(TxtID.Text, TxtName.Text, TxtLastNAme.Text, format,
+                TxtFinger.Text, TxtFinger2.Text, txtFingerDuressPath.Text,
+                GetBioDataId(comboFinger1Id), GetBioDataId(comboFinger2Id), GetBioDataId(comboDuressId),
+                UserData);
+        }
+
 
         private void BtnConnectD_Click(object sender, EventArgs e)
         {        
-            Enum.TryParse<ConnectionType>(CmbConnectTyp.SelectedItem.ToString(), out conType);    
-          
-            morphoAccessDevice.Connect(conType, proto, txtIP.AddressText, ushort.Parse(txtPort.Text), txtSerial.Text,txtSert.Text,
-              txtClientCert.Text, txtCertPass.Text);
-  
+            Enum.TryParse<ConnectionType>(CmbConnectTyp.SelectedItem.ToString(), out conType);
+
+            morphoAccessDevice.Connect(conType, proto, txtIP.AddressText, ushort.Parse(txtPort.Text), txtSerial.Text,
+                txtSert.Text,
+                txtClientCert.Text, txtCertPass.Text);
+
+            morphoAccessDevice.Ping();
+            morphoAccessDevice.CreateDatabaseProxy();
+            morphoAccessDevice.CreateBioManager();
         }
 
 
         private void BtnAddUser_Click(object sender, EventArgs e)
         {
-            morphoAccessDevice.CreateBioManager();
-            morphoAccessDevice.Ping();
+
+            try
+            {
+                UserData.Add(TxtID.Text, TxtName.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, @"ERROR");
+                return;
+            }
+
+
+            if ( morphoAccessDevice.AddRecord(GetDatabaseProxyRecord()))
+            {
+                UserData.Clear();
+            };
+            
+       return;
+           
+
+           
+
 
             if (morphoAccessDevice.Enroll(GetBioManagerRecord(),
-              Convert.ToUInt32(numPkSize.Value),
-              Convert.ToUInt32(numFingers.Value),
-              Convert.ToUInt32(numTimeout.Value),
-              GetBioParameters()))
+                Convert.ToUInt32(numPkSize.Value),
+                Convert.ToUInt32(numFingers.Value),
+                Convert.ToUInt32(numTimeout.Value),
+                GetBioParameters()))
             {
-                // to local_result = m_mad.GetLastBioEnrollResult() and log informations
+                morphoAccessDevice.CreateDatabaseProxy();
+               
+                morphoAccessDevice.AddUsers();
+
             }
         }
 

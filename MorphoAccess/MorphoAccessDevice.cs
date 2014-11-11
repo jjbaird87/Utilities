@@ -8,13 +8,14 @@ using Morpho.MorphoAccess.Maci;
 
 namespace MorphoAccess
 {
-    #region Enums and simple structures for UI
+   
     public enum ConnectionType
     {
         TCP,
         SSL,
         Serial
     }
+
     public enum LogLevel
     {
         CRITICAL,
@@ -24,6 +25,7 @@ namespace MorphoAccess
         VERBOSE,
         DEBUG
     }
+
     public class TerminalInfo
     {
         public TerminalInfo(string descriptor, string content)
@@ -275,9 +277,6 @@ namespace MorphoAccess
         private bool m_acquireDuressFinger;
     }
 
-
-    #endregion Enums and structures
-
     class MorphoAccess
     {
         #region Delegates for live messages (in BioManager)
@@ -312,7 +311,8 @@ namespace MorphoAccess
             string host, ushort tcp_port, string serial_port,
             string terminal_ca_path, string client_cert_path, string client_cert_pw)
         {
-            ConnectionParameters connectParams;
+        
+           ConnectionParameters connectParams;
             switch (type)
             {
                 case ConnectionType.TCP:
@@ -504,6 +504,8 @@ namespace MorphoAccess
           MessageBox.Show( "BioManager created.",LogLevel.VERBOSE.ToString());
             return true;
         }
+
+
         public void DeleteBioManager()
         {
             m_bio_manager.SetImageCallback(null);
@@ -551,8 +553,8 @@ namespace MorphoAccess
                 }
                 else
                 {
-                  m_db_format = m_database_proxy.GetFormat();
-                    int n = 0;
+            
+                
                     // TODO handle the MA2G case
                 }
             }
@@ -805,14 +807,19 @@ namespace MorphoAccess
                  * PK_ISO / PK_ISO_PARAM (for ANSI, ISO & ILO)
                  */
                 default:
-                  MessageBox.Show(LogLevel.WARNING.ToString(), String.Format("Extension {0} not recognized. Using PKLITE format."));
+                  MessageBox.Show(LogLevel.WARNING.ToString(), String.Format("Extension not recognized. Using PKLITE format."));
                     return BioDataFormat.PKLITE;
             }
         }
 
+        //public Record load(LocalRecord local_record)
+        //{
+            
+        //}
 
         private Record ToMaciRecord(LocalRecord local_record)
         {
+            var field = new DatabaseField();
             IRecord record = new Record(local_record.Identifier);
 
             if (!String.IsNullOrEmpty(local_record.FirstName))
@@ -824,6 +831,9 @@ namespace MorphoAccess
                 record.SetUserDataField(MA5G_LAST_NAME_IDENTIFIER, Tools.UTF8StringToByteArray(local_record.LastName));
             }
             var elements = from row in local_record.UserData select new { Key = row.Key, Value = row.Value };
+
+
+
             foreach (var pair in elements)
             {
                 switch (pair.Key)
@@ -869,8 +879,9 @@ namespace MorphoAccess
                         byte[] input_ei = Tools.HexadecimalStringToByteArray(pair.Value);
                         Array.Copy(input_ei, extended_id, (input_ei.Length < EXTENDED_ID_LENGTH) ? input_ei.Length : EXTENDED_ID_LENGTH);
                         break;
+                       
                     default:
-                      MessageBox.Show(LogLevel.WARNING.ToString().ToString(), String.Format("Field {0} unknown, using UTF-8 string format.", pair.Key));
+                      MessageBox.Show( String.Format("Field {0} unknown, using UTF-8 string format.", pair.Key));
                         record.SetUserDataField(pair.Key, Tools.UTF8StringToByteArray(pair.Value));
                         break;
                 }
@@ -1306,18 +1317,29 @@ namespace MorphoAccess
             return false;
         }
 
+
+
+
+
         public bool AddUsers()
         {
-
-            IStatusSet status_set = m_database_proxy.AddUsers(m_record_set as RecordSet);
-
-         
-
-            // TODO
-
-            
+            try
+            {
+  IStatusSet status_set = new StatusSet();
+            status_set = m_database_proxy.AddUsers(m_record_set as RecordSet);
+                return true;
+            }
+            catch (Exception)
+            {
+                   
           MessageBox.Show( "AddUsers does neither catch exceptions nor handle returned status",LogLevel.WARNING.ToString());
             return false;
+               
+            }
+          
+  
+            // TODO
+       
         }
 
         public bool RemoveUsers()
@@ -1482,5 +1504,7 @@ namespace MorphoAccess
         private const string MA5G_FIRST_NAME_IDENTIFIER = "first_name";
         private const string MA5G_LAST_NAME_IDENTIFIER = "name";
         #endregion // Members
+
+
     }
 }

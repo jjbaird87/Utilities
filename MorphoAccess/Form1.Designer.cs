@@ -144,7 +144,7 @@
             // 
             // BtnAddUser
             // 
-            this.BtnAddUser.Location = new System.Drawing.Point(329, 289);
+            this.BtnAddUser.Location = new System.Drawing.Point(331, 331);
             this.BtnAddUser.Name = "BtnAddUser";
             this.BtnAddUser.Size = new System.Drawing.Size(117, 61);
             this.BtnAddUser.TabIndex = 34;
@@ -348,6 +348,7 @@
             this.txtFingerDuressPath.Name = "txtFingerDuressPath";
             this.txtFingerDuressPath.Size = new System.Drawing.Size(129, 20);
             this.txtFingerDuressPath.TabIndex = 47;
+            this.txtFingerDuressPath.Text = "C:\\older\\fingerprint3.pkmat";
             // 
             // btnFindFinger2
             // 
@@ -368,6 +369,7 @@
             this.TxtFinger2.Name = "TxtFinger2";
             this.TxtFinger2.Size = new System.Drawing.Size(129, 20);
             this.TxtFinger2.TabIndex = 45;
+            this.TxtFinger2.Text = "C:\\older\\fingerprint2.pkmat";
             // 
             // label10
             // 
@@ -421,6 +423,7 @@
             this.TxtFinger.Name = "TxtFinger";
             this.TxtFinger.Size = new System.Drawing.Size(129, 20);
             this.TxtFinger.TabIndex = 29;
+            this.TxtFinger.Text = "C:\\older\\fingerprint.pkmat";
             // 
             // TxtLastNAme
             // 
@@ -428,6 +431,7 @@
             this.TxtLastNAme.Name = "TxtLastNAme";
             this.TxtLastNAme.Size = new System.Drawing.Size(112, 20);
             this.TxtLastNAme.TabIndex = 28;
+            this.TxtLastNAme.Text = "Mokwana";
             // 
             // TxtName
             // 
@@ -435,6 +439,7 @@
             this.TxtName.Name = "TxtName";
             this.TxtName.Size = new System.Drawing.Size(112, 20);
             this.TxtName.TabIndex = 27;
+            this.TxtName.Text = "Karabo";
             // 
             // label1
             // 
@@ -451,6 +456,7 @@
             this.TxtID.Name = "TxtID";
             this.TxtID.Size = new System.Drawing.Size(112, 20);
             this.TxtID.TabIndex = 25;
+            this.TxtID.Text = "002";
             // 
             // tcpDevice
             // 
