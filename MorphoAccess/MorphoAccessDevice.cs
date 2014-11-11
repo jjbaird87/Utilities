@@ -834,16 +834,35 @@ namespace MorphoAccess
 
 
 
+            var  MAX = m_terminal.GetMaxNumberOfUsersPerBase();
+            var Ttype = m_terminal.GetTerminalType().ToString().Substring(0, 1);
+            m_db_format = new DatabaseFormat();
+
+            m_db_format.SetBioDataMaxCount(2);
+            m_db_format.SetBioDataMinCount(1);
+            m_db_format.SetRecordIdMaxSize(30);
+            field = new DatabaseField();
+            field.SetDatabaseField("NAME", 20, false);
+            m_db_format.AddField(field);
+
+            field = new DatabaseField();
+            field.SetDatabaseField("FNAME", 20, false);
+            m_db_format.AddField(field);
+
+
+            
+
             foreach (var pair in elements)
             {
                 switch (pair.Key)
                 {
                     case MA5G_FIRST_NAME_IDENTIFIER:
                     case MA5G_LAST_NAME_IDENTIFIER:
-                    case "PIN_code":
-                    case "user_card_sn":
-                    case "expiry_date":
+                    
+                    case "FNAME":
+                    case "NAME":
                         // UTF-8 strings
+                        
                         record.SetUserDataField(pair.Key, Tools.UTF8StringToByteArray(pair.Value));
                         break;
                     case "white_list_flag":
@@ -918,6 +937,8 @@ namespace MorphoAccess
                         BioDataIdentifier.BIOITEM_TYPE_UNDEFINED));
                 }
             }
+           
+          
             return (record as Record);
         }
 
@@ -1273,10 +1294,20 @@ namespace MorphoAccess
         #region DatabaseProxy (Tab)
         public bool AddRecord(LocalRecord local_record)
         {
+            try
+            {
             m_record_set.Add(ToMaciRecord(local_record));
-            // TODO
-          MessageBox.Show(LogLevel.WARNING.ToString(), "AddRecord does not catch exceptions");
+                
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(LogLevel.WARNING.ToString(), "AddRecord does not catch exceptions");
             return false;
+            
+            }
+            return true;
+          
+          
         }
 
         public LocalRecord GetRecord(string id)

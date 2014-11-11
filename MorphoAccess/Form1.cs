@@ -208,7 +208,8 @@ namespace MorphoAccess
 
             try
             {
-                UserData.Add(TxtID.Text, TxtName.Text);
+                UserData.Add("FNAME", TxtLastNAme.Text);
+                UserData.Add("NAME",TxtName.Text);
             }
             catch (Exception ex)
             {
@@ -216,29 +217,25 @@ namespace MorphoAccess
                 return;
             }
 
-
-            if ( morphoAccessDevice.AddRecord(GetDatabaseProxyRecord()))
-            {
-                UserData.Clear();
-            };
-            
-       return;
-           
-
-           
+            morphoAccessDevice.AddRecord(GetDatabaseProxyRecord());
 
 
-            if (morphoAccessDevice.Enroll(GetBioManagerRecord(),
-                Convert.ToUInt32(numPkSize.Value),
-                Convert.ToUInt32(numFingers.Value),
-                Convert.ToUInt32(numTimeout.Value),
-                GetBioParameters()))
-            {
-                morphoAccessDevice.CreateDatabaseProxy();
-               
-                morphoAccessDevice.AddUsers();
 
-            }
+
+
+
+
+            //if (morphoAccessDevice.Enroll(GetBioManagerRecord(),
+            //    Convert.ToUInt32(numPkSize.Value),
+            //    Convert.ToUInt32(numFingers.Value),
+            //    Convert.ToUInt32(numTimeout.Value),
+            //    GetBioParameters()))
+            //{
+            //    morphoAccessDevice.CreateDatabaseProxy();
+
+            //    morphoAccessDevice.AddUsers();
+
+            //}
         }
 
         private void BtnFindFinger_Click_1(object sender, EventArgs e)
