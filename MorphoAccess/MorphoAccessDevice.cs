@@ -279,6 +279,107 @@ namespace MorphoAccess
 
     class MorphoAccess
     {
+        public void FullLoad(LocalRecord localRec, String URI)
+        {
+            try
+            {
+                //update date
+                var configProxy = m_terminal.CreateConfigProxy();
+                var dtSettings = new DateTimeSettings();
+                dtSettings.SetDateTime(DateTime.Now.ToString("yyyMMddTHHmmss"));
+                configProxy.UpdateLocalDateTimeSettings(dtSettings);
+
+                var terminalType = m_terminal.GetTerminalType().ToString().Substring(0, 1);
+                var maxUsersPerBase = m_terminal.GetMaxNumberOfUsersPerBase();
+
+                var dbProxy = m_terminal.CreateDatabaseProxy(0);
+                var format = new DatabaseFormat();
+                var field = new DatabaseField();
+
+                //Set Min and Max Number of Templates & ID size
+                format.SetBioDataMaxCount(2);
+                format.SetBioDataMinCount(1);
+                format.SetRecordIdMaxSize(30);
+
+                //Add fields
+                field.SetDatabaseField("TMSK", 84, false);
+                format.AddField(field);
+
+                switch (terminalType)
+                {
+                    case "5":
+                        field = new DatabaseField();
+                        field.SetDatabaseField("ADMIN", 5, false);
+                        format.AddField(field);
+
+                        field = new DatabaseField();
+                        field.SetDatabaseField("NAME", 20, false);
+                        format.AddField(field);
+
+                        field = new DatabaseField();
+                        field.SetDatabaseField("FNAME", 20, false);
+                        format.AddField(field);
+                        break;
+                }
+
+                //Erase the database
+                dbProxy.DestroyDatabase();
+                //Create Database on Device
+                dbProxy.CreateDatabase(format, maxUsersPerBase);
+
+                //Add records
+                var recordSet = new RecordSet();
+
+
+                IRecord record = new Record(localRec.Identifier);
+                record.SetUserDataField("TMSK", Tools.UTF8StringToByteArray("FF"));
+
+                switch (terminalType)
+                {
+                    case "5":
+                        record.SetUserDataField("ADMIN", Tools.UTF8StringToByteArray("0"));
+                        record.SetUserDataField("FNAME", Tools.UTF8StringToByteArray(localRec.FirstName));
+                        record.SetUserDataField("NAME", Tools.UTF8StringToByteArray(localRec.LastName));
+                        break;
+                }
+
+
+                //Add Biometric Data
+                record.AddBioData(new BioData(new ByteVector(Tools.ReadTemplate(URI)), BioDataType.FINGERPRINT,BioDataFormat.PK_MAT));
+          //record.AddBioData(new BioData(new ByteVector(localRec.SecondFingerURI[1]), BioDataType.FINGERPRINT, BioDataFormat.PK_MAT));
+                recordSet.Add(record as Record);
+
+                //Load to device
+                dbProxy.AddUsers(recordSet);
+                MessageBox.Show(@"Full load successful", LogLevel.INFO.ToString());  
+            }
+
+            catch (LicenceException)
+            {
+                MessageBox.Show(@"license not found, please verify that the MACI license is installed", LogLevel.ERROR.ToString());
+            }
+            catch (CommunicationTimeoutException)
+            {
+               MessageBox.Show(@"Terminal unreachable", LogLevel.ERROR.ToString());
+            }
+            catch (ConnectionFailedException)
+            {
+                MessageBox.Show(@"Cannot connect to terminal", LogLevel.ERROR.ToString());          
+            }
+            catch (MaciException e)
+            {         
+                 MessageBox.Show( String.Format("Failure occured in MACI : {0}", e.GetMessage()));         
+            }
+            catch (Exception e)
+            {    
+             MessageBox.Show(String.Format("Failure occured : {0}", e.Message));
+            }
+           
+         
+
+        }
+       
+
         #region Delegates for live messages (in BioManager)
         // Declarations
         public delegate void FingerEventDelegate(string position_message);

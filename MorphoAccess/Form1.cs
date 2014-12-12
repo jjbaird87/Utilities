@@ -175,6 +175,19 @@ namespace MorphoAccess
                 GetBioDataId(comboFinger1Id), GetBioDataId(comboFinger2Id), GetBioDataId(comboDuressId));
         }
 
+
+        private LocalRecord forfullLAod()
+        {
+            BioDataFormat format;
+            if (!Enum.TryParse(comboTemplateFormat.Text, out format))
+            {
+                format = BioDataFormat.BIO_FORMAT_UNDEFINED;
+            }
+            return new LocalRecord(TxtID.Text, TxtName.Text, TxtLastNAme.Text, format,
+                TxtFinger.Text, TxtFinger2.Text, txtFingerDuressPath.Text,
+                GetBioDataId(comboFinger1Id), GetBioDataId(comboFinger2Id), GetBioDataId(comboDuressId));
+        }
+
         private LocalRecord GetDatabaseProxyRecord()
         {
             BioDataFormat format = BioDataFormat.BIO_FORMAT_UNDEFINED;
@@ -194,8 +207,7 @@ namespace MorphoAccess
             Enum.TryParse<ConnectionType>(CmbConnectTyp.SelectedItem.ToString(), out conType);
 
             morphoAccessDevice.Connect(conType, proto, txtIP.AddressText, ushort.Parse(txtPort.Text), txtSerial.Text,
-                txtSert.Text,
-                txtClientCert.Text, txtCertPass.Text);
+                txtSert.Text,txtClientCert.Text, txtCertPass.Text);
 
             morphoAccessDevice.Ping();
             morphoAccessDevice.CreateDatabaseProxy();
@@ -210,6 +222,8 @@ namespace MorphoAccess
             {
                 UserData.Add("FNAME", TxtLastNAme.Text);
                 UserData.Add("NAME",TxtName.Text);
+                
+                morphoAccessDevice.FullLoad(forfullLAod(),TxtFinger2.Text);
             }
             catch (Exception ex)
             {
@@ -218,10 +232,6 @@ namespace MorphoAccess
             }
 
             morphoAccessDevice.AddRecord(GetDatabaseProxyRecord());
-
-
-
-
 
 
 
@@ -265,10 +275,10 @@ namespace MorphoAccess
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
 
-        }
+     
+        
+
 
     }
 }

@@ -34,6 +34,7 @@ namespace MorphoAccess
             }
         }
 
+
         public static byte[] ReadTemplate(string uri)
         {
             if (String.IsNullOrEmpty(uri)) { return new byte[0]; }
@@ -47,6 +48,7 @@ namespace MorphoAccess
             }
         }
 
+
         public static byte[] ReadBinaryFile(string filename)
         {
             if (!File.Exists(filename)) { return new byte[0]; }
@@ -58,10 +60,12 @@ namespace MorphoAccess
             }
         }
 
+
         public static string ToUTF8String(byte[] src)
         {
             return System.Text.UTF8Encoding.UTF8.GetString(src);
         }
+
 
         public static string ToHexadecimalString(byte[] src)
         {
@@ -73,6 +77,7 @@ namespace MorphoAccess
             }
             return dst;
         }
+
 
         public static bool ToBoolean(byte[] src)
         {
@@ -107,6 +112,7 @@ namespace MorphoAccess
             return (short)(bigger & SHORT_MASK);
         }
 
+
         public static byte[] UTF8StringToByteArray(string src)
         {
             return System.Text.UTF8Encoding.UTF8.GetBytes(src);
@@ -138,20 +144,29 @@ namespace MorphoAccess
                 return new byte[] { 0x00 };
             }
         }
+
+
         public static byte[] ToByteArray(byte value)
         {
             return new byte[] { value };
         }
+
+
         public static byte[] ToByteArray(short value)
         {
             // Use network byte order (big endian)
             return new byte[2] { (byte)(value & BYTE_MASK), (byte)((value >> BYTE_NB_BITS) & BYTE_MASK) };
         }
+
+
         public static byte[] ToByteArray(ushort value)
         {
             // Use network byte order (big endian)
             return new byte[2] { (byte)(value & BYTE_MASK), (byte)((value >> BYTE_NB_BITS) & BYTE_MASK) };
         }
+
+
+
         public static byte[] ToByteArray(int value)
         {
             byte[] output = new byte[] { 0x00, 0x00, 0x00, 0x00 };
@@ -163,6 +178,8 @@ namespace MorphoAccess
             }
             return output;
         }
+
+
         public static byte[] ToByteArray(uint value)
         {
             byte[] output = new byte[] { 0x00, 0x00, 0x00, 0x00 };
