@@ -10,13 +10,13 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace unis
+namespace VIRDI_CLOCKING_COLLECTOR
 {
     partial class Dbconnect
     {
-      
+       
         private string _savedirectoory = "";
-        private string RunEXEfile = "";
+        private string _runExEfile = "";
 
 
         public void RunFile(CheckBox exe)
@@ -24,7 +24,7 @@ namespace unis
             if (exe.Checked == true)
             {
                 Process proc = new Process();
-                proc.StartInfo.FileName = RunEXEfile;
+                proc.StartInfo.FileName = _runExEfile;
                 proc.StartInfo.UseShellExecute = true;
                 try
                 {
@@ -37,7 +37,7 @@ namespace unis
             }
             else
             {
-                return;
+                //do nothing unis
             }
         }
 
@@ -62,7 +62,8 @@ namespace unis
             {
                 xdoc.Add(xml);
             }
-            xdoc.Element("File").Save(@"C:\Users\Public\VIRDI CLOCKING\ExeFile.xml");
+            var xElement = xdoc.Element("File");
+            if (xElement != null) xElement.Save(@"C:\Users\Public\VIRDI CLOCKING\ExeFile.xml");
         }
 
         public void browser(TextBox file)
@@ -70,12 +71,13 @@ namespace unis
             OpenFileDialog openFile = new OpenFileDialog();
             openFile.Filter = @"All |*";
             openFile.ShowDialog();
-            RunEXEfile = openFile.FileName;
-            file.Text = RunEXEfile;
+            _runExEfile = openFile.FileName;
+            file.Text = _runExEfile;
         }
 
-        public void TimedClocks(DataGridView dgv, ProgressBar bar, Button exe, Timer tym,Timer tymupdate,string state,CheckBox fileRun)
+        public void TimedClocks(DataGridView dgv, ProgressBar bar, Button exe, Timer tym,Timer tymupdate,CheckBox fileRun )
         {       
+
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
             exe.Enabled = false;
@@ -240,10 +242,9 @@ namespace unis
                 clock = clock.PadLeft(3, '0');
 
                 var datafileRow = String.Format("{0} {1} {2} {3} {4}", employee, dt1.ToString("dd/MM/yyyy"),
-                    dtTime.ToString(@"hh\:mm"), direction, clock);
+                    dtTime.ToString(@"HH\:mm"), direction, clock);
                 w.WriteLine(datafileRow);
             }
-            tym.Start();
             try
             {
                 w.Dispose();
@@ -261,11 +262,11 @@ namespace unis
             RunFile(fileRun);
         }
 
+        
 
-        public void Clocks(DataGridView dgv, ProgressBar bar, Button exe, Timer tym, Timer tymUpdate,string state,CheckBox ChkEXE)
+        public void Clocks(DataGridView dgv, ProgressBar bar, Button exe, Timer tym, Timer tymUpdate,string state,CheckBox chkExe, DateTime timeLeftT)
         {
-            tym.Stop();
-            tymUpdate.Stop();
+           
             var saveFileDialog1 = new SaveFileDialog();
 
             exe.Enabled = false;
@@ -275,8 +276,9 @@ namespace unis
                 {
                     ShareConnection.Open();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    MessageBox.Show(ex.Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     exe.Enabled = true;
                     return;
                 }
@@ -285,6 +287,8 @@ namespace unis
             saveFileDialog1.Filter = @"dat files (*.dat)|*.dat";
             saveFileDialog1.RestoreDirectory = true;
             saveFileDialog1.FileName = "Clocks";
+
+          
         
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -339,10 +343,19 @@ namespace unis
                     exe.Enabled = true;
                     return;
                 }
+                    tym.Stop();
+                    tymUpdate.Stop();
+
+                    //if (tymUpdate.Enabled == false)
+                    //{
+                    //    timeLeftT = new DateTime(2014, 01, 01, 0, 5, 0);
+                    //}
+                    //timeLeftT = new DateTime(2014, 01, 01, 0, 5, 0);
+
 
                 foreach (DataRow row in datInfo.Rows)
                 {
-                    tym.Stop();
+                    
                     bar.Style = ProgressBarStyle.Marquee;
                     Application.DoEvents();
 
@@ -426,18 +439,23 @@ namespace unis
                     clock = clock.PadLeft(3, '0');
 
                     var datafileRow = String.Format("{0} {1} {2} {3} {4}", employee, dt1.ToString("dd/MM/yyyy"),
-                        dtTime.ToString(@"hh\:mm"), direction, clock);
+                        dtTime.ToString(@"HH\:mm"), direction, clock);
                     w.WriteLine(datafileRow);
                 }
 
                 tym.Start();
                 tymUpdate.Start();
+              
                 w.Dispose();         
                 xmlFile.Close();
                 exe.Enabled = true;
                 bar.Style = ProgressBarStyle.Continuous;
                 MessageBox.Show(@"Export complete", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         
+            }
+            else
+            {
+                exe.Enabled = true;
             }
         }
     }

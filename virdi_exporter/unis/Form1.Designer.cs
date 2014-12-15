@@ -1,4 +1,4 @@
-﻿namespace unis
+﻿namespace VIRDI_CLOCKING_COLLECTOR
 {
     partial class Form1
     {
@@ -43,7 +43,7 @@
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.btnRunFile = new System.Windows.Forms.Button();
+            this.BtnRun = new System.Windows.Forms.Button();
             this.ChkEXE = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtFileName = new System.Windows.Forms.TextBox();
@@ -61,7 +61,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.creaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.BtnRun = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.ConnectPage.SuspendLayout();
@@ -173,7 +173,7 @@
             // 
             this.btnConnect.BackColor = System.Drawing.Color.DarkGray;
             this.btnConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConnect.Location = new System.Drawing.Point(41, 164);
+            this.btnConnect.Location = new System.Drawing.Point(41, 159);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(130, 34);
             this.btnConnect.TabIndex = 15;
@@ -208,8 +208,8 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.Black;
+            this.tabPage2.Controls.Add(this.button1);
             this.tabPage2.Controls.Add(this.BtnRun);
-            this.tabPage2.Controls.Add(this.btnRunFile);
             this.tabPage2.Controls.Add(this.ChkEXE);
             this.tabPage2.Controls.Add(this.label7);
             this.tabPage2.Controls.Add(this.txtFileName);
@@ -220,24 +220,21 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Execute file";
             // 
-            // btnRunFile
+            // BtnRun
             // 
-            this.btnRunFile.AutoEllipsis = true;
-            this.btnRunFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRunFile.Location = new System.Drawing.Point(181, 35);
-            this.btnRunFile.Name = "btnRunFile";
-            this.btnRunFile.Size = new System.Drawing.Size(34, 20);
-            this.btnRunFile.TabIndex = 3;
-            this.btnRunFile.Text = ". . .";
-            this.btnRunFile.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnRunFile.UseVisualStyleBackColor = true;
-            this.btnRunFile.Click += new System.EventHandler(this.btnRunFile_Click);
+            this.BtnRun.Location = new System.Drawing.Point(60, 103);
+            this.BtnRun.Name = "BtnRun";
+            this.BtnRun.Size = new System.Drawing.Size(88, 34);
+            this.BtnRun.TabIndex = 4;
+            this.BtnRun.Text = "Run";
+            this.BtnRun.UseVisualStyleBackColor = true;
+            this.BtnRun.Click += new System.EventHandler(this.BtnRun_Click);
             // 
             // ChkEXE
             // 
             this.ChkEXE.AutoSize = true;
             this.ChkEXE.ForeColor = System.Drawing.Color.Green;
-            this.ChkEXE.Location = new System.Drawing.Point(6, 61);
+            this.ChkEXE.Location = new System.Drawing.Point(11, 59);
             this.ChkEXE.Name = "ChkEXE";
             this.ChkEXE.Size = new System.Drawing.Size(81, 17);
             this.ChkEXE.TabIndex = 2;
@@ -249,17 +246,17 @@
             // 
             this.label7.AutoSize = true;
             this.label7.ForeColor = System.Drawing.Color.Green;
-            this.label7.Location = new System.Drawing.Point(2, 38);
+            this.label7.Location = new System.Drawing.Point(5, 36);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(55, 13);
+            this.label7.Size = new System.Drawing.Size(26, 13);
             this.label7.TabIndex = 1;
-            this.label7.Text = "File name:";
+            this.label7.Text = "File:";
             // 
             // txtFileName
             // 
-            this.txtFileName.Location = new System.Drawing.Point(60, 35);
+            this.txtFileName.Location = new System.Drawing.Point(33, 33);
             this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(115, 20);
+            this.txtFileName.Size = new System.Drawing.Size(142, 20);
             this.txtFileName.TabIndex = 0;
             this.txtFileName.TextChanged += new System.EventHandler(this.txtFileName_TextChanged);
             // 
@@ -390,15 +387,15 @@
             this.creaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.creaToolStripMenuItem.Text = "Create save location";
             // 
-            // BtnRun
+            // button1
             // 
-            this.BtnRun.Location = new System.Drawing.Point(60, 103);
-            this.BtnRun.Name = "BtnRun";
-            this.BtnRun.Size = new System.Drawing.Size(88, 34);
-            this.BtnRun.TabIndex = 4;
-            this.BtnRun.Text = "Run";
-            this.BtnRun.UseVisualStyleBackColor = true;
-            this.BtnRun.Click += new System.EventHandler(this.BtnRun_Click);
+            this.button1.Location = new System.Drawing.Point(181, 30);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(27, 24);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "...";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
@@ -466,11 +463,11 @@
         private System.Windows.Forms.TextBox txtUserName;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Button btnRunFile;
         private System.Windows.Forms.CheckBox ChkEXE;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtFileName;
         private System.Windows.Forms.Button BtnRun;
+        private System.Windows.Forms.Button button1;
     }
 }
 

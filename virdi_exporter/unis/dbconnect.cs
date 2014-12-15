@@ -3,8 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
-
-namespace unis
+namespace VIRDI_CLOCKING_COLLECTOR
 {
    public partial class Dbconnect 
     {
@@ -77,4 +76,8 @@ namespace unis
         }
 
     }
+
+
+
+
 }

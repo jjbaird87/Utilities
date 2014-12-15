@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace unis.Properties {
+namespace VIRDI_CLOCKING_COLLECTOR.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

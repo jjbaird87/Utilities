@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace unis
+namespace VIRDI_CLOCKING_COLLECTOR
 {
     internal class Settings 
     {
@@ -35,27 +35,35 @@ namespace unis
             DataSet ds = new DataSet();
             ds.Tables.Add(dt);
 
+
             try
             {
                 XmlTextWriter xmlSave = new XmlTextWriter(@"C:\Users\Public\VIRDI CLOCKING\DGVXML.xml", Encoding.UTF8);
 
-            ds.WriteXml(xmlSave);
-            xmlSave.Close();
+                ds.WriteXml(xmlSave);
+                xmlSave.Close();
                 ds.Clear();
                 dt.Clear();
                 ds.EndInit();
-                dt.EndInit();           
+                dt.EndInit();
             }
             catch (Exception)
             {
-                MessageBox.Show(@"Save attempt failed, please restart the program or load default settings and and try save again", @"Save failed",
+                MessageBox.Show(
+                    @"Save attempt failed, please restart the program or load default settings and and try save new settings",
+                    @"Save failed",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+             
+                ds.Clear();
+                dt.Clear();
+                ds.EndInit();
+                dt.EndInit();
             }
-           
+
         }
 
 
-        public void LoginSave(string username, string server, string password)
+        public void LoginSave(string username, string server, string password,string uth)
         {
             XDocument xdoc = new XDocument(new XElement("Login"));
 
@@ -67,7 +75,8 @@ namespace unis
                            new XElement("Login",
               new XElement("ServerId", server),
               new XElement("UserId", username),
-              new XElement("Password", password));
+              new XElement("Password", password),
+              new XElement("Uthent", uth));
 
             if (xdoc.Descendants().Count() > 0)
                 xdoc.Descendants().First().Add(xml);

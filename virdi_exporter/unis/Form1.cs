@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-
-namespace unis 
+namespace VIRDI_CLOCKING_COLLECTOR 
 {
     public partial class Form1 : Form
     {
@@ -30,9 +29,8 @@ namespace unis
             {             
                 return;
             }
-            cNet.Clocks(DataView, progressBar1, btnExport, timer1, timer2,ChkEXE.CheckState.ToString(),ChkEXE);
-            Application.DoEvents();
-            timeSet = new DateTime(2014, 01, 01, 0, 5, 0);
+            cNet.Clocks(DataView, progressBar1, btnExport, timer1, timer2,ChkEXE.CheckState.ToString(),ChkEXE,timeSet);
+            Application.DoEvents();          
         }
 
 
@@ -50,7 +48,7 @@ namespace unis
             tools.path();
             button3_Click_2(sender, e);
             tools.FormLoader(btnSave,btnViewDefault,btnExport,BtnLoadSettings,DataView);
-            cNet.LoadLogin(TXTServNameIP, txtUserName, txtPassword);   
+            cNet.LoadLogin(TXTServNameIP, txtUserName, txtPassword,CheckBoxW_authenticate);   
         }
 
 
@@ -97,9 +95,10 @@ namespace unis
         {
             //300000    
             if (timer1.Interval == 300000)
-            {
+            { 
+                timer1.Stop();
                 timer2.Stop();
-                cNet.TimedClocks(DataView, progressBar1, btnExport, timer1, timer2, ChkEXE.CheckState.ToString(),ChkEXE);
+                cNet.TimedClocks(DataView, progressBar1, btnExport, timer1, timer2,ChkEXE);
                 timeSet = new DateTime(2014, 01, 01, 0, 5, 0);
                 label6.Text = "Next export in: " + timeSet.ToString("HH:mm:ss");
             }
@@ -108,14 +107,15 @@ namespace unis
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-           timeSet = timeSet.AddSeconds(-1);
-            label6.Text = "Next export in: "+ timeSet.ToString("HH:mm:ss");
+            timeSet = timeSet.AddSeconds(-1);
+            label6.Text = "Next export in: " + timeSet.ToString("HH:mm:ss");
             Application.DoEvents();
             if (label6.Text == "Next export in: 00:00:00")
             {
                 timeSet = new DateTime(2014, 01, 01, 0, 5, 0);
             }
         }
+
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
@@ -139,7 +139,7 @@ namespace unis
                     return;
                 }
 
-                seting.LoginSave(txtUserName.Text, TXTServNameIP.Text, txtPassword.Text);
+                seting.LoginSave(txtUserName.Text, TXTServNameIP.Text, txtPassword.Text, CheckBoxW_authenticate.CheckState.ToString());
             }
             catch (Exception ex)
             {
@@ -155,7 +155,7 @@ namespace unis
         private void btnRunFile_Click(object sender, EventArgs e)
         {
             //System.Diagnostics.Process.Start(txtFileName.Text);
-            cNet.browser(txtFileName);
+          
 
         }
 
@@ -175,6 +175,11 @@ namespace unis
         private void ChkEXE_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            cNet.browser(txtFileName);
         }
     }
 }

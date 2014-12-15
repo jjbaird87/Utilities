@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace unis
+namespace VIRDI_CLOCKING_COLLECTOR
 {
     public partial class Dbconnect
     {
@@ -24,11 +24,13 @@ namespace unis
 
             string IN = "IN";
             string OUT = "OUT";
+          
             var select = new DataGridViewComboBoxColumn();
             select.HeaderText = @"Direction";
             select.Name = "Direction";
             select.Items.Add(IN);
             select.Items.Add(OUT);
+        
       
             dgv.Columns.Add(select);
 
@@ -36,7 +38,7 @@ namespace unis
         }
 
 
-        public void LoadLogin(TextBox server, TextBox user, TextBox pass)
+        public void LoadLogin(TextBox server, TextBox user, TextBox pass,CheckBox uth)
         {
             try
             {
@@ -50,6 +52,16 @@ namespace unis
 
                 XmlNode node3 = doc.SelectSingleNode("/Login/Login/Password");
                 pass.Text = node3.InnerText;
+
+                XmlNode node4 = doc.SelectSingleNode("/Login/Login/Uthent");
+                if (node4.ToString() == "Unchecked")
+                {
+                    uth.Checked = false;
+                }
+                else
+                {
+                    uth.Checked = true;
+                }          
             }
             catch (Exception)
             {
@@ -68,23 +80,24 @@ namespace unis
                 XmlDocument doc = new XmlDocument();
                 doc.Load(@"C:\Users\Public\VIRDI CLOCKING\ExeFile.xml");
                 XmlNode node = doc.SelectSingleNode("/File/FilePath/FileName");
-                name.Text = node.InnerText;
-
-                RunEXEfile = node.InnerText;
-                XmlNode node2 = doc.SelectSingleNode("/File/FilePath/Checked");
-                if (node2.ToString() == "Unchecked")
+                if (node != null)
                 {
-                    exe.Checked = false;
+                    name.Text = node.InnerText;
+                    _runExEfile = node.InnerText;
+                }
+                XmlNode node2 = doc.SelectSingleNode("/File/FilePath/Checked");
+                if (node2.ToString() == "Checked")
+                {
+                    exe.Checked = true;
                 }
                 else
                 {
-                    exe.Checked = true;
+                    exe.Checked = false;
                 }          
             }
             catch (Exception)
             {
-                MessageBox.Show(@"File for execution not found or has not been created yet", @"File missing",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+              
             }
         }
 

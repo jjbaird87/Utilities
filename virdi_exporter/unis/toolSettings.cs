@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Windows.Forms;
 
-namespace unis
+namespace VIRDI_CLOCKING_COLLECTOR
 {
     class ToolSettings
     {
@@ -24,7 +24,6 @@ namespace unis
                 Directory.CreateDirectory(p);
             }
         }
-
 
 
         public void WindowsCheckd(TextBox pass, TextBox user, CheckBox checkBoxW)
