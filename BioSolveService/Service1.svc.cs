@@ -17,24 +17,59 @@ namespace BioSolveService
         public string InsertRecord(UserDetails userInfo)
         {
             string Message;
-            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=Rajesh;User ID=sa;Password=wintellect");
+            SqlConnection con = new SqlConnection(@"Data Source=KARABO_LAPTOP\SQLEXPRESS;Integrated Security=True;Initial Catalog= BioSolveWebClient.database");
             con.Open();
-            SqlCommand cmd = new SqlCommand("insert into RegistrationTable(UserName,Password,Country,Email) values(@UserName,@Password,@Country,@Email)", con);
+            SqlCommand cmd = new SqlCommand
+                ("insert into BiosolveUsers(idNum,UserName,Lastname,Template,Password) values(@idNum,@UserName,@Lastname,@Template,@Password)", con);
             cmd.Parameters.AddWithValue("@UserName", userInfo.UserName);
-            cmd.Parameters.AddWithValue("@surname", userInfo.surname);
-            cmd.Parameters.AddWithValue("@Id", userInfo.Id);
+            cmd.Parameters.AddWithValue("@Lastname", userInfo.surname);
+            cmd.Parameters.AddWithValue("@idNum", userInfo.Idnum);
             cmd.Parameters.AddWithValue("@Template", userInfo.Template);
+            cmd.Parameters.AddWithValue("@Password", userInfo.Password);
             int result = cmd.ExecuteNonQuery();
             if (result == 1)
             {
-                Message = userInfo.UserName + " User inserted successfully";
+                Message = userInfo.UserName + " inserted successfully";
             }
             else
             {
-                Message = userInfo.UserName + " User not inserted successfully";
+                Message = userInfo.UserName + " not inserted successfully";
             }
             con.Close();
             return Message;
         }
+
+        public string UserLogin(UserDetails user)
+        {
+            string correct;
+            SqlConnection con = new SqlConnection(@"Data Source=KARABO_LAPTOP\SQLEXPRESS;Integrated Security=True;Initial Catalog= BioSolveWebClient.database");
+            con.Open();
+            string UserInDB = "select count(*) from BiosolveUsers where UserName = '"+user.UserName+"'";
+
+            var com = new SqlCommand(UserInDB,con);
+            int response = int.Parse(com.ExecuteScalar().ToString());
+            con.Close();
+            if (response == 1)
+            {
+                con.Open();
+                string PAssCheck = "select Password from BiosolveUsers where UserName ='"+user.UserName+"'";
+                var com2 = new SqlCommand(PAssCheck, con);
+                string passwordFound = com2.ExecuteScalar().ToString();
+                if (passwordFound == user.Password)
+                {
+                    correct = "Password correct";
+
+                }
+                else
+                {
+                    correct = "Password incorect";
+                }
+            }
+            else
+            {
+                correct = "User not found in records";
+            }
+        }
+
     }
 }

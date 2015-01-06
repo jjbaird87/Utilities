@@ -19,13 +19,20 @@ namespace BioSolveService
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.
     [DataContract]
-
     public class UserDetails
     {
-        string username = string.Empty;
-        string Surname = string.Empty;
-        int id = 0;
-        byte template;
+        private string username = string.Empty;
+        private string Surname = string.Empty;
+        private int idnum = 0;
+        private byte[] template;
+        private string password;
+
+        [DataMember]
+        public string Password
+        {
+            get { return password; }
+            set { password = value; }
+        }
 
         [DataMember]
         public string UserName
@@ -33,20 +40,23 @@ namespace BioSolveService
             get { return username; }
             set { username = value; }
         }
+
         [DataMember]
         public string surname
         {
             get { return Surname; }
             set { Surname = value; }
         }
+
         [DataMember]
-        public int Id
+        public int Idnum
         {
-            get { return id; }
-            set { id = value; }
+            get { return idnum; }
+            set { idnum = value; }
         }
+
         [DataMember]
-        public byte Template
+        public byte[] Template
         {
             get { return template; }
             set { template = value; }
