@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -13,7 +14,16 @@ namespace BioSolveService
     public interface IService1
     {
         [OperationContract]
-        string InsertRecord(UserDetails userInfo);     
+        string InsertRecord(UserDetails userInfo);
+
+        [OperationContract]
+        string UserLogin(UserDetails userInfo);
+
+        [OperationContract]
+        string DelteRecord(UserDetails userInfo);
+
+        [OperationContract]
+        SqlDataReader ViewRecords();
     }
 
 
