@@ -14,6 +14,19 @@ namespace BioSolveService
     public class Service1 : IService1
     {
 
+        public SqlDataReader ViewRecords()
+        {
+            SqlConnection con =
+            new SqlConnection(
+                @"Data Source=KARABO_LAPTOP\SQLEXPRESS;Integrated Security=True;Initial Catalog= BioSolveWebClient.database");
+
+            SqlCommand sqlCommand = new SqlCommand("select IdNum,UserName,LastName from [BiosolveUsers]", con);
+            con.Open();
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+
+            return reader;
+        }
+
         public string InsertRecord(UserDetails userInfo)
         {
             string Message;
@@ -29,19 +42,42 @@ namespace BioSolveService
             int result = cmd.ExecuteNonQuery();
             if (result == 1)
             {
-                Message = userInfo.UserName + " inserted successfully";
+                Message = userInfo.UserName + "Record inserted successfully";
             }
             else
             {
-                Message = userInfo.UserName + " not inserted successfully";
+                Message = userInfo.UserName + "Record not inserted successfully";
             }
             con.Close();
             return Message;
         }
 
+
+        public string DelteRecord(UserDetails userInfo)
+        {
+            string Message;
+            SqlConnection con = new SqlConnection(@"Data Source=KARABO_LAPTOP\SQLEXPRESS;Integrated Security=True;Initial Catalog= BioSolveWebClient.database");
+            con.Open();
+            SqlCommand cmd = new SqlCommand
+                ("delete from BiosolveUsers where idNum = '"+ userInfo.Idnum+"' and UserName = '"+userInfo.Idnum+"'", con);
+           
+            int result = cmd.ExecuteNonQuery();
+            if (result == 1)
+            {
+                Message = userInfo.UserName + " Record deleted successfully";
+            }
+            else
+            {
+                Message = userInfo.UserName + " Record not deleted successfully";
+            }
+            con.Close();
+            return Message;
+        }
+
+
         public string UserLogin(UserDetails user)
         {
-            string correct;
+            string message;
             SqlConnection con = new SqlConnection(@"Data Source=KARABO_LAPTOP\SQLEXPRESS;Integrated Security=True;Initial Catalog= BioSolveWebClient.database");
             con.Open();
             string UserInDB = "select count(*) from BiosolveUsers where UserName = '"+user.UserName+"'";
@@ -57,19 +93,18 @@ namespace BioSolveService
                 string passwordFound = com2.ExecuteScalar().ToString();
                 if (passwordFound == user.Password)
                 {
-                    correct = "Password correct";
-
+                    message = "Password correct";
                 }
                 else
                 {
-                    correct = "Password incorect";
+                    message = "Password incorect";
                 }
             }
             else
             {
-                correct = "User not found in records";
+                message = "User not found in records";
             }
+            return message;
         }
-
     }
 }
