@@ -14,18 +14,7 @@ namespace BioSolveService
     public class Service1 : IService1
     {
 
-        public SqlDataReader ViewRecords()
-        {
-            SqlConnection con =
-            new SqlConnection(
-                @"Data Source=KARABO_LAPTOP\SQLEXPRESS;Integrated Security=True;Initial Catalog= BioSolveWebClient.database");
-
-            SqlCommand sqlCommand = new SqlCommand("select IdNum,UserName,LastName from [BiosolveUsers]", con);
-            con.Open();
-            SqlDataReader reader = sqlCommand.ExecuteReader();
-
-            return reader;
-        }
+      
 
         public string InsertRecord(UserDetails userInfo)
         {

@@ -22,8 +22,6 @@ namespace BioSolveService
         [OperationContract]
         string DelteRecord(UserDetails userInfo);
 
-        [OperationContract]
-        SqlDataReader ViewRecords();
     }
 
 
@@ -33,7 +31,7 @@ namespace BioSolveService
     {
         private string username = string.Empty;
         private string Surname = string.Empty;
-        private int idnum = 0;
+        private string idnum = string.Empty;
         private byte[] template;
         private string password;
 
@@ -59,7 +57,7 @@ namespace BioSolveService
         }
 
         [DataMember]
-        public int Idnum
+        public string Idnum
         {
             get { return idnum; }
             set { idnum = value; }
